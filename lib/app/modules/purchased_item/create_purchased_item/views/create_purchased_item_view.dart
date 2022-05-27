@@ -355,7 +355,6 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                       return null;
                     },
                     keyboardType: TextInputType.number),
-
                 DropDownMultiSearchField<Godown>(
                   onPressed: () async {
                     await Get.toNamed(Routes.CREATE_GODOWN, arguments: [false]);
@@ -376,6 +375,8 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                   onChanged: (godowns) {
                     if (godowns != null) {
                       c.selectedGodowns = godowns;
+                      c.fetchStoreRoom(
+                          [for (final godown in godowns) godown.id!]);
                     }
                   },
                   selectedItems: c.selectedGodowns,
@@ -389,6 +390,14 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                   },
                 ),
                 DropDownMultiSearchField<StoreRoom>(
+                  onPressed: () async {
+                    await Get.toNamed(Routes.CREATE_STORE_ROOM,
+                        arguments: [false]);
+                    c.storeRooms.value =
+                        c.objectBoxController.storeRoomBox.getAll();
+                    Get.back();
+                  },
+                  items: c.storeRooms,
                   label: "store_room".tr,
                   multiKey: storeRoomMultiKey,
                   searchHint: "search_store_room_here".tr,
@@ -402,6 +411,8 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                   onChanged: (storeRooms) {
                     if (storeRooms != null) {
                       c.selectedStoreRooms = storeRooms;
+                      c.fetchAlmirah(
+                          [for (final storeRoom in storeRooms) storeRoom.id!]);
                     }
                   },
                   selectedItems: c.selectedStoreRooms,
@@ -420,139 +431,81 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                   },
                 ),
                 DropDownMultiSearchField<Almirah>(
+                  onPressed: () async {
+                    await Get.toNamed(Routes.CREATE_ALMIRAH,
+                        arguments: [false]);
+                    c.almirahs.value =
+                        c.objectBoxController.almirahBox.getAll();
+                    Get.back();
+                  },
+                  items: c.almirahs,
                   label: "almirah".tr,
                   multiKey: almirahMultiKey,
-                  searchHint: "search_almirahy_here".tr,
+                  searchHint: "search_almirah_here".tr,
                   notFoundText: "no_almirah_found".tr,
-                  itemAsString: (storeRoom) {
-                    if (storeRoom != null) {
-                      return storeRoom.name ?? "";
+                  itemAsString: (godown) {
+                    if (godown != null) {
+                      return godown.name ?? "";
                     }
                     return "";
                   },
                   onChanged: (almirahs) {
                     if (almirahs != null) {
-                      c.selectedAlmirahs = almirahs;
+                      c.selectedAlmirahs.value = almirahs;
                     }
                   },
-                  selectedItems: c.almirahs,
-                  popupItemBuilder: (_, storeRoom, b) {
+                  selectedItems: c.selectedAlmirahs,
+                  popupItemBuilder: (_, almirah, b) {
                     return ListTile(
-                      title: AutoSizeText(storeRoom.name ?? "",
+                      title: AutoSizeText(almirah.name ?? "",
                           stepGranularity: 1.sp,
                           minFontSize: 8.sp,
                           style: TextStyle(fontSize: 14.sp)),
-                      subtitle: AutoSizeText(
-                          storeRoom.godown.target!.name ?? "",
-                          stepGranularity: 1.sp,
-                          minFontSize: 8.sp,
-                          style: TextStyle(fontSize: 13.sp)),
+                      subtitle: almirah.godown.target != null
+                          ? AutoSizeText(almirah.godown.target!.name ?? "",
+                              stepGranularity: 1.sp,
+                              minFontSize: 8.sp,
+                              style: TextStyle(fontSize: 13.sp))
+                          : SizedBox(),
                     );
                   },
                 ),
-                // Obx(() => c.godowns.isEmpty
-                //     ? SizedBox()
-                //     : CustomDropDownField(
-                //         items: c.godowns
-                //             .map((item) => DropdownMenuItem<Godown>(
-                //                   value: item,
-                //                   child: AutoSizeText(
-                //                     item.name ?? " ",
-                //                     style: TextStyle(
-                //                       fontSize: 13.sp,
-                //                       color: Color.fromARGB(255, 7, 1, 32),
-                //                     ),
-                //                   ),
-                //                 ))
-                //             .toList(),
-                //         value: c.godowns.first,
-                //         onChanged: (Godown? value) {
-                //           c.fetchStoreRoom(value!.id!);
-                //         },
-                //       )),
-                // Obx(() => c.storeRooms.isEmpty
-                //     ? SizedBox()
-                //     : CustomDropDownField(
-                //         items: c.storeRooms
-                //             .map((item) => DropdownMenuItem<StoreRoom>(
-                //                   value: item,
-                //                   child: AutoSizeText(
-                //                     item.name ?? " ",
-                //                     style: TextStyle(
-                //                       fontSize: 13.sp,
-                //                       color: Color.fromARGB(255, 7, 1, 32),
-                //                     ),
-                //                   ),
-                //                 ))
-                //             .toList(),
-                //         value: c.storeRooms.first,
-                //         onChanged: (StoreRoom? value) {
-                //           c.fetchAlmirah(value!.id!);
-                //         },
-                //       )),
-                // Obx(() => c.items.isEmpty
-                //     ? SizedBox()
-                //     : Container(
-                //         margin: EdgeInsets.symmetric(vertical: 8.h),
-                //         child: MultiSelectDialogField<Almirah>(
-                //           confirmText: Text("confirm".tr),
-                //           cancelText: Text("cancel".tr),
-                //           items: c.items,
-                //           title: Text("almirah".tr),
-                //           selectedColor: Color.fromARGB(255, 96, 33, 243),
-                //           decoration: BoxDecoration(
-                //             color: Color.fromARGB(255, 236, 234, 250),
-                //             borderRadius: BorderRadius.all(Radius.circular(4)),
-                //             border: Border.all(
-                //               // color: Color.fromARGB(255, 107, 33, 243),
-                //               width: 1,
-                //             ),
-                //           ),
-                //           buttonIcon: Icon(
-                //             Icons.book,
-                //             color: Colors.deepPurple,
-                //           ),
-                //           buttonText: Text(
-                //             "choose_almirah".tr,
-                //             style: TextStyle(
-                //               fontSize: 13.sp,
-                //             ),
-                //           ),
-                //           onConfirm: (results) {
-                //             c.currentAlmirah.addAll(results);
-                //           },
-                //         ),
-                //       )),
-                CustomTextField(
-                    keyboardType: TextInputType.number,
-                    controller: c.rowController,
-                    labelText: '${'row'.tr}:',
-                    hint: 'row_hint'.tr,
-                    validator: (value) {
-                      if (value == null ||
-                          value.isEmpty ||
-                          value.removeAllWhitespace.isEmpty) {
-                        return null;
-                      } else if (!value.isNumericOnly) {
-                        return 'row_hint'.tr;
-                      }
-                      return null;
-                    }),
-                CustomTextField(
-                    keyboardType: TextInputType.number,
-                    controller: c.columnController,
-                    labelText: '${'column'.tr}:',
-                    hint: 'column_hint'.tr,
-                    validator: (value) {
-                      if (value == null ||
-                          value.isEmpty ||
-                          value.removeAllWhitespace.isEmpty) {
-                        return null;
-                      } else if (!value.isNumericOnly) {
-                        return 'column_hint'.tr;
-                      }
-                      return null;
-                    }),
+                Obx(() => ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: c.selectedAlmirahs.length,
+                      itemBuilder: ((context, index) => Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                  width: 200.w,
+                                  child: FittedBox(
+                                    alignment: Alignment.centerLeft,
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                        c.selectedAlmirahs[index].name ?? ""),
+                                  )),
+                              SizedBox(
+                                width: 120.w,
+                                child: CustomTextField(
+                                    keyboardType: TextInputType.number,
+                                    controller: c.columnController,
+                                    labelText: '${'quantity'.tr}:',
+                                    hint: 'quantity'.tr,
+                                    validator: (value) {
+                                      if (value == null ||
+                                          value.isEmpty ||
+                                          value.removeAllWhitespace.isEmpty) {
+                                        return null;
+                                      } else if (!value.isNumericOnly) {
+                                        return 'quantity_hint'.tr;
+                                      }
+                                      return null;
+                                    }),
+                              ),
+                            ],
+                          )),
+                    )),
                 SizedBox(height: 10.h),
                 Obx(() => c.isLoading.value
                     ? Center(child: const CircularProgressIndicator())

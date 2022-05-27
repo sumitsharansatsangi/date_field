@@ -18,7 +18,7 @@ class CreatePurchasedItemController extends GetxController {
   DateTime? expiryDate;
   List<StoreRoom> selectedStoreRooms = <StoreRoom>[];
   List<Godown> selectedGodowns = <Godown>[];
-  List<Almirah> selectedAlmirahs = <Almirah>[].obs;
+  final selectedAlmirahs = <Almirah>[].obs;
   final fullUnitController = TextEditingController();
   final shortUnitController = TextEditingController();
   final purchasingPriceController = TextEditingController();
@@ -140,17 +140,21 @@ class CreatePurchasedItemController extends GetxController {
     }
   }
 
-  fetchStoreRoom(int id) {
-    storeRooms.value = objectBoxController.storeRoomBox
-        .query(StoreRoom_.godown.equals(id))
-        .build()
-        .find();
+  fetchStoreRoom(List<int> ids) {
+    for (final id in ids) {
+      storeRooms.addAll(objectBoxController.storeRoomBox
+          .query(StoreRoom_.godown.equals(id))
+          .build()
+          .find());
+    }
   }
 
-  fetchAlmirah(int id) {
-    almirahs.value = objectBoxController.almirahBox
-        .query(Almirah_.room.equals(id))
-        .build()
-        .find();
+  fetchAlmirah(List<int> ids) {
+    for (final id in ids) {
+      almirahs.addAll(objectBoxController.almirahBox
+          .query(Almirah_.room.equals(id))
+          .build()
+          .find());
+    }
   }
 }
