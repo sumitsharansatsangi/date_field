@@ -70,13 +70,10 @@ final _entities = <ModelEntity>[
             indexId: const IdUid(3, 5128553901809614138),
             relationTarget: 'StoreRoom')
       ],
-      relations: <ModelRelation>[
-        ModelRelation(
-            id: const IdUid(1, 3123983210507373000),
-            name: 'items',
-            targetId: const IdUid(7, 7686104616152896715))
-      ],
+      relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[
+        ModelBacklink(
+            name: 'items', srcEntity: 'StoredAtAlmirah', srcField: 'almirah'),
         ModelBacklink(
             name: 'searches',
             srcEntity: 'SearchedAlmirah',
@@ -311,6 +308,8 @@ final _entities = <ModelEntity>[
       ],
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[
+        ModelBacklink(
+            name: 'items', srcEntity: 'StoredAtGodown', srcField: 'godown'),
         ModelBacklink(
             name: 'storeRooms', srcEntity: 'StoreRoom', srcField: 'godown'),
         ModelBacklink(
@@ -674,17 +673,17 @@ final _entities = <ModelEntity>[
       ],
       relations: <ModelRelation>[
         ModelRelation(
-            id: const IdUid(3, 8809935799041712644),
-            name: 'almirah',
-            targetId: const IdUid(1, 650443588419861090)),
+            id: const IdUid(10, 3810981742572487496),
+            name: 'storedAtAlmirah',
+            targetId: const IdUid(40, 1860788591811800291)),
         ModelRelation(
-            id: const IdUid(4, 1430679982529798376),
-            name: 'storeRoom',
-            targetId: const IdUid(33, 360102490782741676)),
+            id: const IdUid(11, 5719259342626672910),
+            name: 'storedAtStoreRoom',
+            targetId: const IdUid(42, 5977850605437515526)),
         ModelRelation(
-            id: const IdUid(5, 6933024123071296522),
-            name: 'godowns',
-            targetId: const IdUid(6, 6603878796111150026))
+            id: const IdUid(12, 6876482805188607476),
+            name: 'storedAtGodown',
+            targetId: const IdUid(41, 5009557543068563064))
       ],
       backlinks: <ModelBacklink>[
         ModelBacklink(
@@ -1209,6 +1208,10 @@ final _entities = <ModelEntity>[
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[
         ModelBacklink(
+            name: 'items',
+            srcEntity: 'StoredAtStoreRoom',
+            srcField: 'storeRoom'),
+        ModelBacklink(
             name: 'searches',
             srcEntity: 'SearchedStoreRoom',
             srcField: 'searchedStoreRoom'),
@@ -1480,6 +1483,84 @@ final _entities = <ModelEntity>[
             relationTarget: 'PurchaseOrder')
       ],
       relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(40, 1860788591811800291),
+      name: 'StoredAtAlmirah',
+      lastPropertyId: const IdUid(3, 7125899221887289559),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 7814704860502554970),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 3253253067371019236),
+            name: 'quantity',
+            type: 8,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 7125899221887289559),
+            name: 'almirahId',
+            type: 11,
+            flags: 520,
+            indexId: const IdUid(61, 3742264157739586208),
+            relationTarget: 'Almirah')
+      ],
+      relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(41, 5009557543068563064),
+      name: 'StoredAtGodown',
+      lastPropertyId: const IdUid(4, 2432094298349680280),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 6058713178088952177),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 4194405989396218991),
+            name: 'quantity',
+            type: 8,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 2432094298349680280),
+            name: 'godownId',
+            type: 11,
+            flags: 520,
+            indexId: const IdUid(64, 8566946821233122508),
+            relationTarget: 'Godown')
+      ],
+      relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(42, 5977850605437515526),
+      name: 'StoredAtStoreRoom',
+      lastPropertyId: const IdUid(3, 6486635297064000732),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 2076340163877332300),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 2601277411452249182),
+            name: 'quantity',
+            type: 8,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 6486635297064000732),
+            name: 'storeRoomId',
+            type: 11,
+            flags: 520,
+            indexId: const IdUid(63, 8592569340877248361),
+            relationTarget: 'StoreRoom')
+      ],
+      relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[])
 ];
 
@@ -1503,16 +1584,16 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(39, 8810800911941814570),
-      lastIndexId: const IdUid(60, 4682163895779857305),
-      lastRelationId: const IdUid(9, 665650501529604873),
+      lastEntityId: const IdUid(42, 5977850605437515526),
+      lastIndexId: const IdUid(64, 8566946821233122508),
+      lastRelationId: const IdUid(12, 6876482805188607476),
       lastSequenceId: const IdUid(0, 0),
       retiredEntityUids: const [
         6145054875762183440,
         4128264320292842738,
         6169911816713222516
       ],
-      retiredIndexUids: const [],
+      retiredIndexUids: const [9081257258501090108],
       retiredPropertyUids: const [
         1780070200151674826,
         769043045094587578,
@@ -1527,9 +1608,16 @@ ModelDefinition getObjectBoxModel() {
         8176846338405818000,
         2320729568546690615,
         2387192677903044873,
-        4545861866493637642
+        4545861866493637642,
+        8012853237821543046
       ],
-      retiredRelationUids: const [6229432461412395518],
+      retiredRelationUids: const [
+        6229432461412395518,
+        3123983210507373000,
+        8809935799041712644,
+        1430679982529798376,
+        6933024123071296522
+      ],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
       version: 1);
@@ -1539,7 +1627,9 @@ ModelDefinition getObjectBoxModel() {
         model: _entities[0],
         toOneRelations: (Almirah object) => [object.godown, object.room],
         toManyRelations: (Almirah object) => {
-              RelInfo<Almirah>.toMany(1, object.id!): object.items,
+              RelInfo<StoredAtAlmirah>.toOneBacklink(3, object.id!,
+                      (StoredAtAlmirah srcObject) => srcObject.almirah):
+                  object.items,
               RelInfo<SearchedAlmirah>.toOneBacklink(3, object.id!,
                       (SearchedAlmirah srcObject) => srcObject.searchedAlmirah):
                   object.searches
@@ -1588,8 +1678,12 @@ ModelDefinition getObjectBoxModel() {
           object.room.targetId =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0);
           object.room.attach(store);
-          InternalToManyAccess.setRelInfo(object.items, store,
-              RelInfo<Almirah>.toMany(1, object.id!), store.box<Almirah>());
+          InternalToManyAccess.setRelInfo(
+              object.items,
+              store,
+              RelInfo<StoredAtAlmirah>.toOneBacklink(3, object.id!,
+                  (StoredAtAlmirah srcObject) => srcObject.almirah),
+              store.box<Almirah>());
           InternalToManyAccess.setRelInfo(
               object.searches,
               store,
@@ -1878,6 +1972,8 @@ ModelDefinition getObjectBoxModel() {
         model: _entities[5],
         toOneRelations: (Godown object) => [],
         toManyRelations: (Godown object) => {
+              RelInfo<StoredAtGodown>.toOneBacklink(4, object.id!,
+                  (StoredAtGodown srcObject) => srcObject.godown): object.items,
               RelInfo<StoreRoom>.toOneBacklink(
                       5, object.id!, (StoreRoom srcObject) => srcObject.godown):
                   object.storeRooms,
@@ -1918,6 +2014,12 @@ ModelDefinition getObjectBoxModel() {
             ..dateOfUpdation = dateOfUpdationValue == null
                 ? null
                 : DateTime.fromMillisecondsSinceEpoch(dateOfUpdationValue);
+          InternalToManyAccess.setRelInfo(
+              object.items,
+              store,
+              RelInfo<StoredAtGodown>.toOneBacklink(4, object.id!,
+                  (StoredAtGodown srcObject) => srcObject.godown),
+              store.box<Godown>());
           InternalToManyAccess.setRelInfo(
               object.storeRooms,
               store,
@@ -2270,9 +2372,12 @@ ModelDefinition getObjectBoxModel() {
               object.suppliedBy
             ],
         toManyRelations: (PurchasedItem object) => {
-              RelInfo<PurchasedItem>.toMany(3, object.id!): object.almirah,
-              RelInfo<PurchasedItem>.toMany(4, object.id!): object.storeRoom,
-              RelInfo<PurchasedItem>.toMany(5, object.id!): object.godowns,
+              RelInfo<PurchasedItem>.toMany(10, object.id!):
+                  object.storedAtAlmirah,
+              RelInfo<PurchasedItem>.toMany(11, object.id!):
+                  object.storedAtStoreRoom,
+              RelInfo<PurchasedItem>.toMany(12, object.id!):
+                  object.storedAtGodown,
               RelInfo<SearchedPurchasedItem>.toOneBacklink(
                   3,
                   object.id!,
@@ -2359,19 +2464,19 @@ ModelDefinition getObjectBoxModel() {
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 36, 0);
           object.suppliedBy.attach(store);
           InternalToManyAccess.setRelInfo(
-              object.almirah,
+              object.storedAtAlmirah,
               store,
-              RelInfo<PurchasedItem>.toMany(3, object.id!),
+              RelInfo<PurchasedItem>.toMany(10, object.id!),
               store.box<PurchasedItem>());
           InternalToManyAccess.setRelInfo(
-              object.storeRoom,
+              object.storedAtStoreRoom,
               store,
-              RelInfo<PurchasedItem>.toMany(4, object.id!),
+              RelInfo<PurchasedItem>.toMany(11, object.id!),
               store.box<PurchasedItem>());
           InternalToManyAccess.setRelInfo(
-              object.godowns,
+              object.storedAtGodown,
               store,
-              RelInfo<PurchasedItem>.toMany(5, object.id!),
+              RelInfo<PurchasedItem>.toMany(12, object.id!),
               store.box<PurchasedItem>());
           InternalToManyAccess.setRelInfo(
               object.searches,
@@ -2933,6 +3038,9 @@ ModelDefinition getObjectBoxModel() {
         model: _entities[29],
         toOneRelations: (StoreRoom object) => [object.godown],
         toManyRelations: (StoreRoom object) => {
+              RelInfo<StoredAtStoreRoom>.toOneBacklink(3, object.id!,
+                      (StoredAtStoreRoom srcObject) => srcObject.storeRoom):
+                  object.items,
               RelInfo<SearchedStoreRoom>.toOneBacklink(
                   3,
                   object.id!,
@@ -2976,6 +3084,12 @@ ModelDefinition getObjectBoxModel() {
           object.godown.targetId =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0);
           object.godown.attach(store);
+          InternalToManyAccess.setRelInfo(
+              object.items,
+              store,
+              RelInfo<StoredAtStoreRoom>.toOneBacklink(3, object.id!,
+                  (StoredAtStoreRoom srcObject) => srcObject.storeRoom),
+              store.box<StoreRoom>());
           InternalToManyAccess.setRelInfo(
               object.searches,
               store,
@@ -3305,6 +3419,96 @@ ModelDefinition getObjectBoxModel() {
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
           object.searchedOrder.attach(store);
           return object;
+        }),
+    StoredAtAlmirah: EntityDefinition<StoredAtAlmirah>(
+        model: _entities[36],
+        toOneRelations: (StoredAtAlmirah object) => [object.almirah],
+        toManyRelations: (StoredAtAlmirah object) => {},
+        getId: (StoredAtAlmirah object) => object.id,
+        setId: (StoredAtAlmirah object, int id) {
+          object.id = id;
+        },
+        objectToFB: (StoredAtAlmirah object, fb.Builder fbb) {
+          fbb.startTable(4);
+          fbb.addInt64(0, object.id ?? 0);
+          fbb.addFloat64(1, object.quantity);
+          fbb.addInt64(2, object.almirah.targetId);
+          fbb.finish(fbb.endTable());
+          return object.id ?? 0;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = StoredAtAlmirah()
+            ..id =
+                const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4)
+            ..quantity = const fb.Float64Reader()
+                .vTableGetNullable(buffer, rootOffset, 6);
+          object.almirah.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
+          object.almirah.attach(store);
+          return object;
+        }),
+    StoredAtGodown: EntityDefinition<StoredAtGodown>(
+        model: _entities[37],
+        toOneRelations: (StoredAtGodown object) => [object.godown],
+        toManyRelations: (StoredAtGodown object) => {},
+        getId: (StoredAtGodown object) => object.id,
+        setId: (StoredAtGodown object, int id) {
+          object.id = id;
+        },
+        objectToFB: (StoredAtGodown object, fb.Builder fbb) {
+          fbb.startTable(5);
+          fbb.addInt64(0, object.id ?? 0);
+          fbb.addFloat64(1, object.quantity);
+          fbb.addInt64(3, object.godown.targetId);
+          fbb.finish(fbb.endTable());
+          return object.id ?? 0;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = StoredAtGodown()
+            ..id =
+                const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4)
+            ..quantity = const fb.Float64Reader()
+                .vTableGetNullable(buffer, rootOffset, 6);
+          object.godown.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
+          object.godown.attach(store);
+          return object;
+        }),
+    StoredAtStoreRoom: EntityDefinition<StoredAtStoreRoom>(
+        model: _entities[38],
+        toOneRelations: (StoredAtStoreRoom object) => [object.storeRoom],
+        toManyRelations: (StoredAtStoreRoom object) => {},
+        getId: (StoredAtStoreRoom object) => object.id,
+        setId: (StoredAtStoreRoom object, int id) {
+          object.id = id;
+        },
+        objectToFB: (StoredAtStoreRoom object, fb.Builder fbb) {
+          fbb.startTable(4);
+          fbb.addInt64(0, object.id ?? 0);
+          fbb.addFloat64(1, object.quantity);
+          fbb.addInt64(2, object.storeRoom.targetId);
+          fbb.finish(fbb.endTable());
+          return object.id ?? 0;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = StoredAtStoreRoom()
+            ..id =
+                const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4)
+            ..quantity = const fb.Float64Reader()
+                .vTableGetNullable(buffer, rootOffset, 6);
+          object.storeRoom.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
+          object.storeRoom.attach(store);
+          return object;
         })
   };
 
@@ -3341,10 +3545,6 @@ class Almirah_ {
   /// see [Almirah.room]
   static final room =
       QueryRelationToOne<Almirah, StoreRoom>(_entities[0].properties[7]);
-
-  /// see [Almirah.items]
-  static final items =
-      QueryRelationToMany<Almirah, Item>(_entities[0].relations[0]);
 }
 
 /// [Company] entity fields to define ObjectBox queries.
@@ -3689,17 +3889,20 @@ class PurchasedItem_ {
   static final suppliedBy =
       QueryRelationToOne<PurchasedItem, Supplier>(_entities[11].properties[16]);
 
-  /// see [PurchasedItem.almirah]
-  static final almirah =
-      QueryRelationToMany<PurchasedItem, Almirah>(_entities[11].relations[0]);
+  /// see [PurchasedItem.storedAtAlmirah]
+  static final storedAtAlmirah =
+      QueryRelationToMany<PurchasedItem, StoredAtAlmirah>(
+          _entities[11].relations[0]);
 
-  /// see [PurchasedItem.storeRoom]
-  static final storeRoom =
-      QueryRelationToMany<PurchasedItem, StoreRoom>(_entities[11].relations[1]);
+  /// see [PurchasedItem.storedAtStoreRoom]
+  static final storedAtStoreRoom =
+      QueryRelationToMany<PurchasedItem, StoredAtStoreRoom>(
+          _entities[11].relations[1]);
 
-  /// see [PurchasedItem.godowns]
-  static final godowns =
-      QueryRelationToMany<PurchasedItem, Godown>(_entities[11].relations[2]);
+  /// see [PurchasedItem.storedAtGodown]
+  static final storedAtGodown =
+      QueryRelationToMany<PurchasedItem, StoredAtGodown>(
+          _entities[11].relations[2]);
 }
 
 /// [Receipt] entity fields to define ObjectBox queries.
@@ -4174,4 +4377,49 @@ class SearchedPurchaseOrder_ {
   static final searchedOrder =
       QueryRelationToOne<SearchedPurchaseOrder, PurchaseOrder>(
           _entities[35].properties[2]);
+}
+
+/// [StoredAtAlmirah] entity fields to define ObjectBox queries.
+class StoredAtAlmirah_ {
+  /// see [StoredAtAlmirah.id]
+  static final id =
+      QueryIntegerProperty<StoredAtAlmirah>(_entities[36].properties[0]);
+
+  /// see [StoredAtAlmirah.quantity]
+  static final quantity =
+      QueryDoubleProperty<StoredAtAlmirah>(_entities[36].properties[1]);
+
+  /// see [StoredAtAlmirah.almirah]
+  static final almirah =
+      QueryRelationToOne<StoredAtAlmirah, Almirah>(_entities[36].properties[2]);
+}
+
+/// [StoredAtGodown] entity fields to define ObjectBox queries.
+class StoredAtGodown_ {
+  /// see [StoredAtGodown.id]
+  static final id =
+      QueryIntegerProperty<StoredAtGodown>(_entities[37].properties[0]);
+
+  /// see [StoredAtGodown.quantity]
+  static final quantity =
+      QueryDoubleProperty<StoredAtGodown>(_entities[37].properties[1]);
+
+  /// see [StoredAtGodown.godown]
+  static final godown =
+      QueryRelationToOne<StoredAtGodown, Godown>(_entities[37].properties[2]);
+}
+
+/// [StoredAtStoreRoom] entity fields to define ObjectBox queries.
+class StoredAtStoreRoom_ {
+  /// see [StoredAtStoreRoom.id]
+  static final id =
+      QueryIntegerProperty<StoredAtStoreRoom>(_entities[38].properties[0]);
+
+  /// see [StoredAtStoreRoom.quantity]
+  static final quantity =
+      QueryDoubleProperty<StoredAtStoreRoom>(_entities[38].properties[1]);
+
+  /// see [StoredAtStoreRoom.storeRoom]
+  static final storeRoom = QueryRelationToOne<StoredAtStoreRoom, StoreRoom>(
+      _entities[38].properties[2]);
 }

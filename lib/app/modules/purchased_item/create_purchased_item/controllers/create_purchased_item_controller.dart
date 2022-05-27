@@ -95,22 +95,23 @@ class CreatePurchasedItemController extends GetxController {
   void addPurchasedItem() {
     try {
       final purchasedItem = PurchasedItem()
-        ..purchasedDate = purchasedDate
-        ..purchasedItem.targetId = currentItem.value.id
-        ..purchasingPrice = double.parse(purchasingPriceController.text)
-        ..purchasingPriceUnit.targetId = purchasingPriceUnit.value.id
-        ..purchasedQuantity = double.parse(purchasedQuantityController.text)
-        ..purchasedQuantityUnit.targetId = purchasedQuantityUnit.value.id
-        ..currentQuantity = double.parse(purchasedQuantityController.text)
-        ..currentQuantityUnit.targetId = purchasedQuantityUnit.value.id
-        ..suppliedBy.targetId = currentSupplier.value.id
-        ..almirah.addAll(selectedAlmirahs)
-        ..dateOfExpiry = expiryDate
-        ..sellingPrice = double.parse(sellingPriceController.text)
-        ..sellingPriceUnit.targetId = sellingPriceUnit.value.id
-        ..row = int.parse(rowController.text)
-        ..column = int.parse(columnController.text)
-        ..almirah.addAll(selectedAlmirahs);
+            ..purchasedDate = purchasedDate
+            ..purchasedItem.targetId = currentItem.value.id
+            ..purchasingPrice = double.parse(purchasingPriceController.text)
+            ..purchasingPriceUnit.targetId = purchasingPriceUnit.value.id
+            ..purchasedQuantity = double.parse(purchasedQuantityController.text)
+            ..purchasedQuantityUnit.targetId = purchasedQuantityUnit.value.id
+            ..currentQuantity = double.parse(purchasedQuantityController.text)
+            ..currentQuantityUnit.targetId = purchasedQuantityUnit.value.id
+            ..suppliedBy.targetId = currentSupplier.value.id
+            // ..almirah.addAll(selectedAlmirahs)
+            ..dateOfExpiry = expiryDate
+            ..sellingPrice = double.parse(sellingPriceController.text)
+            ..sellingPriceUnit.targetId = sellingPriceUnit.value.id
+            ..row = int.parse(rowController.text)
+            ..column = int.parse(columnController.text)
+          // ..almirah.addAll(selectedAlmirahs)
+          ;
       if (isUpdating.value) {
         purchasedItem.id = updatingPurchasedItem!.id!;
       }

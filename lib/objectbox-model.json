@@ -58,13 +58,7 @@
           "relationTarget": "StoreRoom"
         }
       ],
-      "relations": [
-        {
-          "id": "1:3123983210507373000",
-          "name": "items",
-          "targetId": "7:7686104616152896715"
-        }
-      ]
+      "relations": []
     },
     {
       "id": "2:5546735397151162490",
@@ -626,19 +620,19 @@
       ],
       "relations": [
         {
-          "id": "3:8809935799041712644",
-          "name": "almirah",
-          "targetId": "1:650443588419861090"
+          "id": "10:3810981742572487496",
+          "name": "storedAtAlmirah",
+          "targetId": "40:1860788591811800291"
         },
         {
-          "id": "4:1430679982529798376",
-          "name": "storeRoom",
-          "targetId": "33:360102490782741676"
+          "id": "11:5719259342626672910",
+          "name": "storedAtStoreRoom",
+          "targetId": "42:5977850605437515526"
         },
         {
-          "id": "5:6933024123071296522",
-          "name": "godowns",
-          "targetId": "6:6603878796111150026"
+          "id": "12:6876482805188607476",
+          "name": "storedAtGodown",
+          "targetId": "41:5009557543068563064"
         }
       ]
     },
@@ -1443,11 +1437,92 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "40:1860788591811800291",
+      "lastPropertyId": "3:7125899221887289559",
+      "name": "StoredAtAlmirah",
+      "properties": [
+        {
+          "id": "1:7814704860502554970",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3253253067371019236",
+          "name": "quantity",
+          "type": 8
+        },
+        {
+          "id": "3:7125899221887289559",
+          "name": "almirahId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "61:3742264157739586208",
+          "relationTarget": "Almirah"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "41:5009557543068563064",
+      "lastPropertyId": "4:2432094298349680280",
+      "name": "StoredAtGodown",
+      "properties": [
+        {
+          "id": "1:6058713178088952177",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4194405989396218991",
+          "name": "quantity",
+          "type": 8
+        },
+        {
+          "id": "4:2432094298349680280",
+          "name": "godownId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "64:8566946821233122508",
+          "relationTarget": "Godown"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "42:5977850605437515526",
+      "lastPropertyId": "3:6486635297064000732",
+      "name": "StoredAtStoreRoom",
+      "properties": [
+        {
+          "id": "1:2076340163877332300",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2601277411452249182",
+          "name": "quantity",
+          "type": 8
+        },
+        {
+          "id": "3:6486635297064000732",
+          "name": "storeRoomId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "63:8592569340877248361",
+          "relationTarget": "StoreRoom"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "39:8810800911941814570",
-  "lastIndexId": "60:4682163895779857305",
-  "lastRelationId": "9:665650501529604873",
+  "lastEntityId": "42:5977850605437515526",
+  "lastIndexId": "64:8566946821233122508",
+  "lastRelationId": "12:6876482805188607476",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
@@ -1456,7 +1531,9 @@
     4128264320292842738,
     6169911816713222516
   ],
-  "retiredIndexUids": [],
+  "retiredIndexUids": [
+    9081257258501090108
+  ],
   "retiredPropertyUids": [
     1780070200151674826,
     769043045094587578,
@@ -1471,10 +1548,15 @@
     8176846338405818000,
     2320729568546690615,
     2387192677903044873,
-    4545861866493637642
+    4545861866493637642,
+    8012853237821543046
   ],
   "retiredRelationUids": [
-    6229432461412395518
+    6229432461412395518,
+    3123983210507373000,
+    8809935799041712644,
+    1430679982529798376,
+    6933024123071296522
   ],
   "version": 1
 }

@@ -10,6 +10,8 @@ class Godown {
   @Property(type: PropertyType.date)
   DateTime? dateOfUpdation;
   @Backlink("godown")
+  final items = ToMany<StoredAtGodown>();
+  @Backlink("godown")
   final storeRooms = ToMany<StoreRoom>();
   @Backlink("godown")
   final almirahs = ToMany<Almirah>();
@@ -36,7 +38,8 @@ class Almirah {
   DateTime dateOfCreation = DateTime.now();
   @Property(type: PropertyType.date)
   DateTime? dateOfUpdation;
-  final items = ToMany<Item>();
+  @Backlink("almirah")
+  final items = ToMany<StoredAtAlmirah>();
   final godown = ToOne<Godown>();
   final room = ToOne<StoreRoom>();
   @Backlink('searchedAlmirah')
@@ -82,6 +85,8 @@ class StoreRoom {
   DateTime dateOfCreation = DateTime.now();
   @Property(type: PropertyType.date)
   DateTime? dateOfUpdation;
+  @Backlink("storeRoom")
+  final items = ToMany<StoredAtStoreRoom>();
   final godown = ToOne<Godown>();
   @Backlink('searchedStoreRoom')
   final searches = ToMany<SearchedStoreRoom>();
@@ -283,11 +288,32 @@ class PurchasedItem {
   final currentQuantityUnit = ToOne<Unit>();
   final purchasedItem = ToOne<ItemVariant>();
   final suppliedBy = ToOne<Supplier>();
-  final almirah = ToMany<Almirah>();
-  final storeRoom = ToMany<StoreRoom>();
-  final godowns = ToMany<Godown>();
+  final storedAtAlmirah = ToMany<StoredAtAlmirah>();
+  final storedAtStoreRoom = ToMany<StoredAtStoreRoom>();
+  final storedAtGodown = ToMany<StoredAtGodown>();
   @Backlink('searchedPurchasedItem')
   final searches = ToMany<SearchedPurchasedItem>();
+}
+
+@Entity()
+class StoredAtAlmirah {
+  int? id;
+  double? quantity;
+  final almirah = ToOne<Almirah>();
+}
+
+@Entity()
+class StoredAtStoreRoom {
+  int? id;
+  double? quantity;
+  final storeRoom = ToOne<StoreRoom>();
+}
+
+@Entity()
+class StoredAtGodown {
+  int? id;
+  double? quantity;
+  final godown = ToOne<Godown>();
 }
 
 @Entity()
