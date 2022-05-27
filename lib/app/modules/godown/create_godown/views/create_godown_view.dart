@@ -39,7 +39,40 @@ class CreateGodownView extends GetView<CreateGodownController> {
                       }
                       return null;
                     }),
-                SizedBox(height: 25.h),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Table(
+                  columnWidths: {
+                    0: FlexColumnWidth(1 / 3),
+                    1: FixedColumnWidth(26.sp)
+                  },
+                  children: [
+                    TableRow(children: [
+                      Text(
+                        'add_open_space_godown'.tr,
+                        style: TextStyle(fontSize: 14.sp),
+                      ),
+                      SizedBox(
+                        height: 25.sp,
+                        width: 25.sp,
+                        child: Obx(() => Checkbox(
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              checkColor: Colors.greenAccent,
+                              // activeColor: Colors.red,
+                              value: c.addOpenSpace.value,
+                              onChanged: (bool? value) {
+                                if (value != null) {
+                                  c.addOpenSpace.value = value;
+                                }
+                              },
+                            )),
+                      ),
+                    ])
+                  ],
+                ),
+                SizedBox(height: 30.h),
                 Obx(() => c.isLoading.value
                     ? Center(child: const CircularProgressIndicator())
                     : c.isUpdating.value

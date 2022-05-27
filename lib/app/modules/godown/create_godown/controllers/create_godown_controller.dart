@@ -13,6 +13,7 @@ class CreateGodownController extends GetxController {
   final objectBoxController = Get.find<ObjectBoxController>();
   final isLoading = false.obs;
   final isAddMore = false.obs;
+  final addOpenSpace = false.obs;
 
   @override
   void onInit() {
@@ -39,10 +40,13 @@ class CreateGodownController extends GetxController {
       if (isUpdating.value) {
         godown.id = updatingGodown!.id;
       }
-
       int id = objectBoxController.godownBox.put(godown);
-
       if (id != -1) {
+        if (addOpenSpace.value) {
+          objectBoxController.storeRoomBox.put(StoreRoom()
+            ..name = "openspace".tr
+            ..godown.targetId = id);
+        }
         isLoading.value = false;
         if (!isAddMore.value) {
           Get.back();

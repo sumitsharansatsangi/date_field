@@ -73,6 +73,10 @@ class StoreRoomController extends GetxController {
                 padding: EdgeInsets.all(3.r),
                 child: Table(
                   border: TableBorder.all(color: Colors.deepPurple.shade200),
+                  columnWidths: {
+                    0: FlexColumnWidth(1 / 3),
+                    1: FlexColumnWidth(2 / 3)
+                  },
                   children: [
                     TableRow(children: [
                       Heading("name".tr),

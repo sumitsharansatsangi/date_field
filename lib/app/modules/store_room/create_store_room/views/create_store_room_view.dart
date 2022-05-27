@@ -65,7 +65,40 @@ class CreateStoreRoomView extends GetView<CreateStoreRoomController> {
                             );
                           }),
                 ),
-                SizedBox(height: 20.h),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Table(
+                  columnWidths: {
+                    0: FlexColumnWidth(1 / 3),
+                    1: FixedColumnWidth(26.sp)
+                  },
+                  children: [
+                    TableRow(children: [
+                      Text(
+                        'add_open_space_store_room'.tr,
+                        style: TextStyle(fontSize: 14.sp),
+                      ),
+                      SizedBox(
+                        height: 25.sp,
+                        width: 25.sp,
+                        child: Obx(() => Checkbox(
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              checkColor: Color.fromARGB(255, 4, 190, 101),
+                              // activeColor: Color.fromARGB(255, 210, 192, 235),
+                              value: c.addOpenSpace.value,
+                              onChanged: (bool? value) {
+                                if (value != null) {
+                                  c.addOpenSpace.value = value;
+                                }
+                              },
+                            )),
+                      ),
+                    ])
+                  ],
+                ),
+                SizedBox(height: 30.h),
                 Obx(() => c.isLoading.value
                     ? Center(child: const CircularProgressIndicator())
                     : c.isUpdating.value
@@ -93,7 +126,9 @@ class CreateStoreRoomView extends GetView<CreateStoreRoomController> {
                               if (_formKey.currentState!.validate()) {
                                 c.isLoading.value = true;
                                 c.isAddMore.value = true;
-                                c.addStoreRoom();
+                                c.addStoreRoom(); // setState(() {
+                                //   this.valuefirst = value;
+                                // });
                               }
                             },
                           ))

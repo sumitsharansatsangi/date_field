@@ -15,6 +15,7 @@ class CreateStoreRoomController extends GetxController {
   final godowns = <Godown>[].obs;
   final isLoading = false.obs;
   final isAddMore = false.obs;
+  final addOpenSpace = false.obs;
 
   @override
   void onInit() {
@@ -50,6 +51,11 @@ class CreateStoreRoomController extends GetxController {
       }
       int id = objectBoxController.storeRoomBox.put(storeRoom);
       if (id != -1) {
+        if (addOpenSpace.value) {
+          objectBoxController.almirahBox.put(Almirah()
+            ..name = "openspace".tr
+            ..room.targetId = id);
+        }
         isLoading.value = false;
         if (!isAddMore.value) {
           Get.back();
