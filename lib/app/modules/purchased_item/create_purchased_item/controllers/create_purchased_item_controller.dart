@@ -104,7 +104,7 @@ class CreatePurchasedItemController extends GetxController {
             ..currentQuantity = double.parse(purchasedQuantityController.text)
             ..currentQuantityUnit.targetId = purchasedQuantityUnit.value.id
             ..suppliedBy.targetId = currentSupplier.value.id
-            // ..almirah.addAll(selectedAlmirahs)
+            // ..storedAtAlmirah.addAll(selectedAlmirahs)
             ..dateOfExpiry = expiryDate
             ..sellingPrice = double.parse(sellingPriceController.text)
             ..sellingPriceUnit.targetId = sellingPriceUnit.value.id

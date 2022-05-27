@@ -450,7 +450,8 @@ class HomeView extends GetView<HomeController> {
                         SizedBox(
                             width: 0.4 * Get.width,
                             child: DropDownSearchField<Unit>(
-                                label: "unit".tr,
+                                hint: "unit".tr,
+                                popupTitle: "unit".tr,
                                 onPressed: () async {
                                   await Get.toNamed(Routes.CREATE_UNIT,
                                       arguments: [false]);

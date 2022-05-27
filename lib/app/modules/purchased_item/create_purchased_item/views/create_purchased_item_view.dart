@@ -218,6 +218,7 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                     width: 150.w,
                     child: DropDownSearchField<Unit>(
                       allowDecoration: false,
+                      popupTitle: "unit".tr,
                       hint: 'unit'.tr,
                       searchHint: "search_unit_here".tr,
                       notFoundText: 'no_unit_found'.tr,
@@ -265,6 +266,7 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                       width: 150.w,
                       child: DropDownSearchField<Unit>(
                         allowDecoration: false,
+                        popupTitle: "unit".tr,
                         hint: 'unit'.tr,
                         searchHint: "search_unit_here".tr,
                         notFoundText: 'no_unit_found'.tr,
@@ -312,6 +314,7 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                       width: 150.w,
                       child: DropDownSearchField<Unit>(
                         allowDecoration: false,
+                        popupTitle: "unit".tr,
                         hint: 'unit'.tr,
                         searchHint: "search_unit_here".tr,
                         notFoundText: 'no_unit_found'.tr,

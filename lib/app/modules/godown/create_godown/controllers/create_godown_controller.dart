@@ -36,11 +36,12 @@ class CreateGodownController extends GetxController {
     try {
       isLoading.value = true;
       final godown = Godown()..name = nameController.text.trim().capitalize;
-      print(godown.name);
       if (isUpdating.value) {
         godown.id = updatingGodown!.id;
       }
+
       int id = objectBoxController.godownBox.put(godown);
+
       if (id != -1) {
         isLoading.value = false;
         if (!isAddMore.value) {
