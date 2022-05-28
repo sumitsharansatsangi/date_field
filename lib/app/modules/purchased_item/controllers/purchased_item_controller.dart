@@ -100,28 +100,23 @@ class PurchasedItemController extends GetxController {
                     ]),
                     TableRow(children: [
                       Heading("purchased_quantity".tr),
-                      Content(purchasedItem.purchasedQuantity.toString() +
-                          (purchasedItem
-                                  .purchasedQuantityUnit.target!.fullName ??
-                              " ")),
+                      Content(
+                          "${purchasedItem.purchasedQuantity} ${purchasedItem.purchasedQuantityUnit.target!.fullName ?? " "}"),
                     ]),
                     TableRow(children: [
                       Heading("current_quantity".tr),
-                      Content(purchasedItem.currentQuantity.toString() +
-                          (purchasedItem.currentQuantityUnit.target!.fullName ??
-                              " ")),
+                      Content(
+                          "${purchasedItem.currentQuantity} ${purchasedItem.currentQuantityUnit.target!.fullName ?? " "}"),
                     ]),
                     TableRow(children: [
                       Heading("purchasing_price".tr),
-                      Content(purchasedItem.purchasingPrice.toString() +
-                          (purchasedItem.purchasingPriceUnit.target!.fullName ??
-                              " ")),
+                      Content(
+                          "${purchasedItem.purchasingPrice} / ${purchasedItem.purchasingPriceUnit.target!.fullName ?? " "}"),
                     ]),
                     TableRow(children: [
                       Heading("selling_price".tr),
-                      Content(purchasedItem.sellingPrice.toString() +
-                          (purchasedItem.sellingPriceUnit.target!.fullName ??
-                              " "))
+                      Content(
+                          "${purchasedItem.sellingPrice} / ${purchasedItem.sellingPriceUnit.target!.fullName ?? " "}")
                     ])
                   ],
                 ),

@@ -75,17 +75,7 @@ class PurchasedItemView extends GetView<PurchasedItemController> {
         )),
       ),
       body: Obx(() => c.searchedPurchasedItemList.isEmpty
-          ? Column(
-              children: [
-                SearchWidget(text: 'start_searching_purchased_item'.tr),
-                IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    c.objectBoxController.purchasedItemBox.removeAll();
-                  },
-                )
-              ],
-            )
+          ? SearchWidget(text: 'start_searching_purchased_item'.tr)
           : ListView.builder(
               itemCount: c.searchedPurchasedItemList.length,
               itemBuilder: (_, index) {

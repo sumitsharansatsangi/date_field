@@ -31,9 +31,9 @@ class CreatePurchasedItemController extends GetxController {
   final columnController = TextEditingController();
   final itemSearchController = TextEditingController();
   final supplierSearchController = TextEditingController();
-  final purchasingPriceUnit = Unit().obs;
-  final sellingPriceUnit = Unit().obs;
-  final purchasedQuantityUnit = Unit().obs;
+  final purchasingPriceUnit = Rx<Unit?>(null);
+  final sellingPriceUnit = Rx<Unit?>(null);
+  final purchasedQuantityUnit = Rx<Unit?>(null);
   final currentSupplier = Rx<Supplier?>(null);
   final currentItem = Rx<ItemVariant?>(null);
   final godowns = <Godown>[].obs;
@@ -95,18 +95,18 @@ class CreatePurchasedItemController extends GetxController {
   void addPurchasedItem() {
     try {
       final purchasedItem = PurchasedItem()
-        ..purchasedDate = purchasedDate
+        ..purchasedDate = purchasedDate ?? DateTime.now()
         ..purchasedItem.targetId = currentItem.value!.id
         ..purchasingPrice = double.parse(purchasingPriceController.text)
-        ..purchasingPriceUnit.targetId = purchasingPriceUnit.value.id
+        ..purchasingPriceUnit.targetId = purchasingPriceUnit.value!.id
         ..purchasedQuantity = double.parse(purchasedQuantityController.text)
-        ..purchasedQuantityUnit.targetId = purchasedQuantityUnit.value.id
+        ..purchasedQuantityUnit.targetId = purchasedQuantityUnit.value!.id
         ..currentQuantity = double.parse(purchasedQuantityController.text)
-        ..currentQuantityUnit.targetId = purchasedQuantityUnit.value.id
+        ..currentQuantityUnit.targetId = purchasedQuantityUnit.value!.id
         ..suppliedBy.targetId = currentSupplier.value!.id
         ..dateOfExpiry = expiryDate
         ..sellingPrice = double.parse(sellingPriceController.text)
-        ..sellingPriceUnit.targetId = sellingPriceUnit.value.id;
+        ..sellingPriceUnit.targetId = sellingPriceUnit.value!.id;
       if (selectedAlmirahs.isNotEmpty) {
         purchasedItem.storedAtAlmirah.addAll(selectedAlmirahs);
       } else if (selectedStoreRooms.isNotEmpty) {

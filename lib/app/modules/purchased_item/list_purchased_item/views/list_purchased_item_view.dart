@@ -115,7 +115,7 @@ class ListPurchasedItemView extends GetView<ListPurchasedItemController> {
                             ),
                             child: ListTile(
                                 onLongPress: () {
-                                  Get.toNamed(Routes.CREATE_ITEM,
+                                  Get.toNamed(Routes.CREATE_PURCHASED_ITEM,
                                       arguments: [true, e.item]);
                                 },
                                 onTap: () => c.purchasedItemController
