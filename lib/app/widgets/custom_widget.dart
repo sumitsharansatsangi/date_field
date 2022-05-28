@@ -768,12 +768,14 @@ class CustomDateField extends StatelessWidget {
   final DateTime? initialDate;
   final FormFieldValidator<DateTime>? validator;
   final void Function(DateTime)? onDateSelected;
+  final DateTimeFieldPickerMode mode;
   const CustomDateField({
     Key? key,
     required this.labelText,
     required this.hint,
     this.initialDate,
     this.validator,
+    this.mode = DateTimeFieldPickerMode.date,
     required this.onDateSelected,
   }) : super(key: key);
 
@@ -799,7 +801,7 @@ class CustomDateField extends StatelessWidget {
               style: TextStyle(fontSize: 14.sp),
             ),
           ),
-          mode: DateTimeFieldPickerMode.date,
+          mode: mode,
           autovalidateMode: AutovalidateMode.always,
           validator: validator,
           onDateSelected: onDateSelected),

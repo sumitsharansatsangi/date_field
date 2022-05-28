@@ -16,17 +16,17 @@ class CreatePurchasedItemController extends GetxController {
   late PurchasedItem? updatingPurchasedItem;
   DateTime? purchasedDate;
   DateTime? expiryDate;
-  final selectedStoreRooms = <StoredAtStoreRoom>[].obs;
-  final selectedGodowns = <StoredAtGodown>[].obs;
-  final selectedAlmirahs = <StoredAtAlmirah>[].obs;
+  final selectedStoreRooms = <StoredAtStoreRoom>{}.obs;
+  final selectedGodowns = <StoredAtGodown>{}.obs;
+  final selectedAlmirahs = <StoredAtAlmirah>{}.obs;
   final fullUnitController = TextEditingController();
   final shortUnitController = TextEditingController();
   final purchasingPriceController = TextEditingController();
-  final purchasingPriceUnitController = TextEditingController();
+  // final purchasingPriceUnitController = TextEditingController();
   final sellingPriceController = TextEditingController();
-  final sellingPriceUnitController = TextEditingController();
+  // final sellingPriceUnitController = TextEditingController();
   final purchasedQuantityController = TextEditingController();
-  final purchasedQuantityUnitController = TextEditingController();
+  // final purchasedQuantityUnitController = TextEditingController();
   final rowController = TextEditingController();
   final columnController = TextEditingController();
   final itemSearchController = TextEditingController();
@@ -34,8 +34,8 @@ class CreatePurchasedItemController extends GetxController {
   final purchasingPriceUnit = Unit().obs;
   final sellingPriceUnit = Unit().obs;
   final purchasedQuantityUnit = Unit().obs;
-  final currentSupplier = Supplier().obs;
-  final currentItem = ItemVariant().obs;
+  final currentSupplier = Rx<Supplier?>(null);
+  final currentItem = Rx<ItemVariant?>(null);
   final godowns = <Godown>[].obs;
   final storeRooms = <StoreRoom>[].obs;
   final almirahs = <Almirah>[].obs;
@@ -95,23 +95,23 @@ class CreatePurchasedItemController extends GetxController {
   void addPurchasedItem() {
     try {
       final purchasedItem = PurchasedItem()
-            ..purchasedDate = purchasedDate
-            ..purchasedItem.targetId = currentItem.value.id
-            ..purchasingPrice = double.parse(purchasingPriceController.text)
-            ..purchasingPriceUnit.targetId = purchasingPriceUnit.value.id
-            ..purchasedQuantity = double.parse(purchasedQuantityController.text)
-            ..purchasedQuantityUnit.targetId = purchasedQuantityUnit.value.id
-            ..currentQuantity = double.parse(purchasedQuantityController.text)
-            ..currentQuantityUnit.targetId = purchasedQuantityUnit.value.id
-            ..suppliedBy.targetId = currentSupplier.value.id
-            // ..storedAtAlmirah.addAll(selectedAlmirahs)
-            ..dateOfExpiry = expiryDate
-            ..sellingPrice = double.parse(sellingPriceController.text)
-            ..sellingPriceUnit.targetId = sellingPriceUnit.value.id
-            ..row = int.parse(rowController.text)
-            ..column = int.parse(columnController.text)
-          // ..almirah.addAll(selectedAlmirahs)
-          ;
+        ..purchasedDate = purchasedDate
+        ..purchasedItem.targetId = currentItem.value!.id
+        ..purchasingPrice = double.parse(purchasingPriceController.text)
+        ..purchasingPriceUnit.targetId = purchasingPriceUnit.value.id
+        ..purchasedQuantity = double.parse(purchasedQuantityController.text)
+        ..purchasedQuantityUnit.targetId = purchasedQuantityUnit.value.id
+        ..currentQuantity = double.parse(purchasedQuantityController.text)
+        ..currentQuantityUnit.targetId = purchasedQuantityUnit.value.id
+        ..suppliedBy.targetId = currentSupplier.value!.id
+        ..dateOfExpiry = expiryDate
+        ..sellingPrice = double.parse(sellingPriceController.text)
+        ..sellingPriceUnit.targetId = sellingPriceUnit.value.id;
+      if (selectedAlmirahs.isNotEmpty) {
+        purchasedItem.storedAtAlmirah.addAll(selectedAlmirahs);
+      } else if (selectedStoreRooms.isNotEmpty) {
+        purchasedItem.storedAtStoreRoom.addAll(selectedStoreRooms);
+      }
       if (isUpdating.value) {
         purchasedItem.id = updatingPurchasedItem!.id!;
       }
@@ -133,11 +133,14 @@ class CreatePurchasedItemController extends GetxController {
         }
       } else {
         isLoading.value = false;
+        print("mar gye");
         errorSnackBar();
       }
-    } on Exception {
+    } on Exception catch (e) {
+      print(e);
       isLoading.value = false;
       errorSnackBar();
+      print(e);
     }
   }
 

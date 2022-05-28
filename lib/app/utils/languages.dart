@@ -362,7 +362,10 @@ class Languages extends Translations {
               'सामान रखने के लिए गोदाम में खुली जगह जोड़ें। : ',
           'add_open_space_store_room':
               'सामान रखने के लिए स्टोररूम में खुली जगह जोड़ें। : ',
-          'open_space': 'खुली जगह'
+          'open_space': 'खुली जगह',
+          'expiry_date': 'समाप्ति तिथि',
+          'expiry_date_hint': 'समाप्ति तिथि अतीत में नहीं हो सकती है।',
+          'purchase_date': 'क्रय तिथि'
         },
         'en_US': {
           'almirah': 'Almirah',
@@ -720,7 +723,10 @@ class Languages extends Translations {
               'Add open space in the godown to keep items. : ',
           'add_open_space_store_room':
               'Add open space in the storeroom to keep items. : ',
-          'openspace': 'Open Space'
+          'openspace': 'Open Space',
+          'expiry_date': 'Expiry date',
+          'expiry_date_hint': "Expiry date can't be in the past.",
+          'purchase_date': 'Purchase date'
         },
       };
 }

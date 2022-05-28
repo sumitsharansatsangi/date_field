@@ -75,7 +75,17 @@ class PurchasedItemView extends GetView<PurchasedItemController> {
         )),
       ),
       body: Obx(() => c.searchedPurchasedItemList.isEmpty
-          ? SearchWidget(text: 'start_searching_purchased_item'.tr)
+          ? Column(
+              children: [
+                SearchWidget(text: 'start_searching_purchased_item'.tr),
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    c.objectBoxController.purchasedItemBox.removeAll();
+                  },
+                )
+              ],
+            )
           : ListView.builder(
               itemCount: c.searchedPurchasedItemList.length,
               itemBuilder: (_, index) {
@@ -93,39 +103,21 @@ class PurchasedItemView extends GetView<PurchasedItemController> {
                     formatter.format(purchasedDateTime);
                 return ListContainer(
                   child: ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          children: [
-                            AutoSizeText(
-                              "item_name".tr,
-                              stepGranularity: 1.sp,
-                              minFontSize: 8.sp,
-                              style: Get.textTheme.titleLarge,
-                            ),
-                            AutoSizeText(
-                              c
-                                  .searchedPurchasedItemList[index]
-                                  .searchedPurchasedItem
-                                  .target!
-                                  .purchasedItem
-                                  .target!
-                                  .item
-                                  .target!
-                                  .name!,
-                              stepGranularity: 1.sp,
-                              minFontSize: 8.sp,
-                              style: Get.textTheme.titleMedium,
-                            ),
-                          ],
+                        AutoSizeText(
+                          "${c.searchedPurchasedItemList[index].searchedPurchasedItem.target!.purchasedItem.target!.item.target!.company.target!.name} ${c.searchedPurchasedItemList[index].searchedPurchasedItem.target!.purchasedItem.target!.item.target!.name} ",
+                          stepGranularity: 1.sp,
+                          minFontSize: 8.sp,
+                          style: Get.textTheme.titleMedium,
                         ),
                         SizedBox(
                           width: 10.sw,
                         ),
-                        Column(
+                        Row(
                           children: [
-                            AutoSizeText("purchased_date".tr,
+                            AutoSizeText("purchase_date".tr,
                                 stepGranularity: 1.sp,
                                 minFontSize: 8.sp,
                                 style: TextStyle(
@@ -141,13 +133,6 @@ class PurchasedItemView extends GetView<PurchasedItemController> {
                       ],
                     ),
                     subtitle: AutoSizeText(formattedSearchedDate,
-                        stepGranularity: 1.sp,
-                        minFontSize: 8.sp,
-                        style: Get.textTheme.titleSmall),
-                    leading: AutoSizeText(
-                        c.searchedPurchasedItemList[index].searchedPurchasedItem
-                            .target!.purchasedItem.target!.item.target!.company
-                            .toString(),
                         stepGranularity: 1.sp,
                         minFontSize: 8.sp,
                         style: Get.textTheme.titleSmall),

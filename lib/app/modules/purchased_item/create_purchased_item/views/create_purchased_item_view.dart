@@ -3,6 +3,7 @@ import 'package:app/app/routes/app_pages.dart';
 // import 'package:app/app/utils/network.dart';
 import 'package:app/app/widgets/custom_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:date_field/date_field.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:speed_up_get/speed_up_get.dart';
@@ -31,12 +32,17 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
               children: [
                 SizedBox(height: 10.h),
                 DropDownSearchField<ItemVariant>(
+                  selectedItem: c.currentItem.value,
                   label: 'item_name'.tr,
                   searchHint: "search_item_here".tr,
                   notFoundText: 'no_item_found'.tr,
                   items: c.items,
-                  itemAsString: (ItemVariant? itemVariant) =>
-                      itemVariant!.item.target!.name ?? " ",
+                  itemAsString: (ItemVariant? itemVariant) => itemVariant !=
+                          null
+                      ? itemVariant.item.target != null
+                          ? "${itemVariant.item.target!.company.target!.name ?? ""} ${itemVariant.item.target!.name ?? ""}"
+                          : ""
+                      : "",
                   onChanged: (ItemVariant? itemVariant) {
                     if (itemVariant != null) {
                       c.currentItem.value = itemVariant;
@@ -47,10 +53,12 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                       isThreeLine: true,
                       title: Column(
                         children: [
-                          AutoSizeText(itemVariant.item.target!.name ?? "",
-                              stepGranularity: 1.sp,
-                              minFontSize: 8.sp,
-                              style: TextStyle(fontSize: 13.sp)),
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                                "${itemVariant.item.target!.company.target!.name ?? ""} ${itemVariant.item.target!.name ?? ""}",
+                                style: TextStyle(fontSize: 13.sp)),
+                          ),
                           itemVariant.item.target!.alternateName != null
                               ? Wrap(
                                   children: [
@@ -128,26 +136,6 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                                   )),
                             ],
                           ),
-                          Column(
-                            children: [
-                              AutoSizeText(
-                                'Company',
-                                stepGranularity: 1.sp,
-                                minFontSize: 8.sp,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12.sp,
-                                ),
-                              ),
-                              AutoSizeText(
-                                itemVariant.item.target!.company.target!.name ??
-                                    "",
-                                stepGranularity: 1.sp,
-                                minFontSize: 8.sp,
-                                style: TextStyle(fontSize: 11.sp),
-                              ),
-                            ],
-                          )
                         ],
                       ),
                     );
@@ -164,6 +152,7 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                   height: 10.h,
                 ),
                 DropDownSearchField<Supplier>(
+                  selectedItem: c.currentSupplier.value,
                   label: 'supplier_name'.tr,
                   searchHint: "search_supplier_here".tr,
                   notFoundText: 'no_supplier_found'.tr,
@@ -217,6 +206,7 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                   suffixIcon: SizedBox(
                     width: 150.w,
                     child: DropDownSearchField<Unit>(
+                      selectedItem: c.purchasingPriceUnit.value,
                       allowDecoration: false,
                       popupTitle: "unit".tr,
                       hint: 'unit'.tr,
@@ -226,7 +216,7 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                       itemAsString: (Unit? u) => u!.fullName ?? " ",
                       onChanged: (Unit? unit) {
                         if (unit != null) {
-                          c.sellingPriceUnit.value = unit;
+                          c.purchasingPriceUnit.value = unit;
                         }
                       },
                       popupItemBuilder: (_, unit, b) {
@@ -265,6 +255,7 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                     suffixIcon: SizedBox(
                       width: 150.w,
                       child: DropDownSearchField<Unit>(
+                        selectedItem: c.sellingPriceUnit.value,
                         allowDecoration: false,
                         popupTitle: "unit".tr,
                         hint: 'unit'.tr,
@@ -313,6 +304,7 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                     suffixIcon: SizedBox(
                       width: 150.w,
                       child: DropDownSearchField<Unit>(
+                        selectedItem: c.purchasedQuantityUnit.value,
                         allowDecoration: false,
                         popupTitle: "unit".tr,
                         hint: 'unit'.tr,
@@ -323,7 +315,6 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                         onChanged: (Unit? unit) {
                           if (unit != null) {
                             c.purchasedQuantityUnit.value = unit;
-                            c.unitController.addSearchedUnit(unit);
                           }
                         },
                         popupItemBuilder: (_, unit, b) {
@@ -358,6 +349,23 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                       return null;
                     },
                     keyboardType: TextInputType.number),
+                CustomDateField(
+                  labelText: "expiry_date".tr,
+                  mode: DateTimeFieldPickerMode.dateAndTime,
+                  hint: DateTime.now().toString(),
+                  initialDate: c.expiryDate,
+                  validator: (value) {
+                    if (value == null) {
+                      return null;
+                    } else if (value.isBefore(DateTime.now())) {
+                      return "expiry_date_hint".tr;
+                    }
+                    return null;
+                  },
+                  onDateSelected: (DateTime value) {
+                    c.expiryDate = value;
+                  },
+                ),
                 DropDownMultiSearchField<Godown>(
                   onPressed: () async {
                     await Get.toNamed(Routes.CREATE_GODOWN, arguments: [false]);
@@ -483,11 +491,28 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                           minFontSize: 8.sp,
                           style: TextStyle(fontSize: 14.sp)),
                       subtitle: almirah.godown.target != null
-                          ? AutoSizeText(almirah.godown.target!.name ?? "",
-                              stepGranularity: 1.sp,
-                              minFontSize: 8.sp,
-                              style: TextStyle(fontSize: 13.sp))
-                          : SizedBox(),
+                          ? FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(almirah.godown.target!.name ?? "",
+                                  style: TextStyle(fontSize: 13.sp)),
+                            )
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                  FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(almirah.room.target!.name ?? "",
+                                        style: TextStyle(fontSize: 13.sp)),
+                                  ),
+                                  FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                        almirah.room.target!.godown.target!
+                                                .name ??
+                                            "",
+                                        style: TextStyle(fontSize: 12.sp)),
+                                  )
+                                ]),
                     );
                   },
                 ),
@@ -503,8 +528,11 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                                   child: FittedBox(
                                     alignment: Alignment.centerLeft,
                                     fit: BoxFit.scaleDown,
-                                    child: Text(c.selectedAlmirahs[index]
-                                            .almirah.target!.name ??
+                                    child: Text(c.selectedAlmirahs
+                                            .toList()[index]
+                                            .almirah
+                                            .target!
+                                            .name ??
                                         ""),
                                   )),
                               SizedBox(
@@ -517,11 +545,13 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                                     validator: (value) {
                                       if (value == null ||
                                           value.isEmpty ||
-                                          value.removeAllWhitespace.isEmpty) {
-                                        return null;
-                                      } else if (!value.isNumericOnly) {
+                                          value.removeAllWhitespace.isEmpty ||
+                                          !value.isNumericOnly) {
                                         return 'quantity_hint'.tr;
                                       }
+                                      c.selectedAlmirahs
+                                          .toList()[index]
+                                          .quantity = double.tryParse(value);
                                       return null;
                                     }),
                               ),
