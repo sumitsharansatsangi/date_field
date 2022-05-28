@@ -377,12 +377,18 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                   },
                   onChanged: (godowns) {
                     if (godowns != null) {
-                      c.selectedGodowns = godowns;
+                      for (final godown in godowns) {
+                        c.selectedGodowns
+                            .add(StoredAtGodown()..godown.target = godown);
+                      }
                       c.fetchStoreRoom(
                           [for (final godown in godowns) godown.id!]);
                     }
                   },
-                  selectedItems: c.selectedGodowns,
+                  selectedItems: [
+                    for (final godown in c.selectedGodowns)
+                      godown.godown.target!
+                  ],
                   popupItemBuilder: (_, godown, b) {
                     return ListTile(
                       title: AutoSizeText(godown.name ?? "",
@@ -413,12 +419,18 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                   },
                   onChanged: (storeRooms) {
                     if (storeRooms != null) {
-                      c.selectedStoreRooms = storeRooms;
+                      for (final storeRoom in storeRooms) {
+                        c.selectedStoreRooms.add(
+                            StoredAtStoreRoom()..storeRoom.target = storeRoom);
+                      }
                       c.fetchAlmirah(
                           [for (final storeRoom in storeRooms) storeRoom.id!]);
                     }
                   },
-                  selectedItems: c.selectedStoreRooms,
+                  selectedItems: [
+                    for (final storeRoom in c.selectedStoreRooms)
+                      storeRoom.storeRoom.target!
+                  ],
                   popupItemBuilder: (_, storeRoom, b) {
                     return ListTile(
                       title: AutoSizeText(storeRoom.name ?? "",
@@ -454,10 +466,16 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                   },
                   onChanged: (almirahs) {
                     if (almirahs != null) {
-                      c.selectedAlmirahs.value = almirahs;
+                      for (final almirah in almirahs) {
+                        c.selectedAlmirahs
+                            .add(StoredAtAlmirah()..almirah.target = almirah);
+                      }
                     }
                   },
-                  selectedItems: c.selectedAlmirahs,
+                  selectedItems: [
+                    for (final almirah in c.selectedAlmirahs)
+                      almirah.almirah.target!
+                  ],
                   popupItemBuilder: (_, almirah, b) {
                     return ListTile(
                       title: AutoSizeText(almirah.name ?? "",
@@ -485,8 +503,9 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                                   child: FittedBox(
                                     alignment: Alignment.centerLeft,
                                     fit: BoxFit.scaleDown,
-                                    child: Text(
-                                        c.selectedAlmirahs[index].name ?? ""),
+                                    child: Text(c.selectedAlmirahs[index]
+                                            .almirah.target!.name ??
+                                        ""),
                                   )),
                               SizedBox(
                                 width: 120.w,

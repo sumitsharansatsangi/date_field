@@ -16,9 +16,9 @@ class CreatePurchasedItemController extends GetxController {
   late PurchasedItem? updatingPurchasedItem;
   DateTime? purchasedDate;
   DateTime? expiryDate;
-  List<StoreRoom> selectedStoreRooms = <StoreRoom>[];
-  List<Godown> selectedGodowns = <Godown>[];
-  final selectedAlmirahs = <Almirah>[].obs;
+  final selectedStoreRooms = <StoredAtStoreRoom>[].obs;
+  final selectedGodowns = <StoredAtGodown>[].obs;
+  final selectedAlmirahs = <StoredAtAlmirah>[].obs;
   final fullUnitController = TextEditingController();
   final shortUnitController = TextEditingController();
   final purchasingPriceController = TextEditingController();
