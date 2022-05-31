@@ -444,13 +444,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.1"
-  flutter_neumorphic_null_safety:
-    dependency: "direct main"
-    description:
-      name: flutter_neumorphic_null_safety
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.2.4"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:

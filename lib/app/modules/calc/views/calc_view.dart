@@ -1,10 +1,11 @@
 import 'dart:math';
 import 'package:app/app/widgets/custom_widget.dart';
-import 'package:flutter_neumorphic_null_safety/flutter_neumorphic.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import '../controllers/calc_controller.dart';
+
+import 'package:flutter/material.dart';
 
 class CalcView extends GetView<CalcController> {
   @override
