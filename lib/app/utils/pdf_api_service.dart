@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:app/app/data/model.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -8,7 +10,8 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 
 class Utils {
-  static formatPrice(double price) => '\u{20B9} ${price.toStringAsFixed(2)}';
+  static formatPrice(double price) => "₹ ${price.toStringAsFixed(2)}";
+  // static formatPrice(double price) => price.toStringAsFixed(2);
   static formatDate(DateTime date) => DateFormat.yMd().format(date);
 }
 
@@ -29,15 +32,19 @@ class PdfApi {
 
   static Future openFile(File file) async {
     final url = file.path;
-
     await OpenFile.open(url);
   }
 }
 
 class PdfReceiptApi {
+  static late Font ttf;
+  static late Font inrttf;
   Future<File> generate(Receipt receipt) async {
     final pdf = Document();
-
+    final font = await rootBundle.load("assets/NotoSans-Regular.ttf");
+    final inrFont = await rootBundle.load("assets/Hind-Regular.ttf");
+    ttf = Font.ttf(font);
+    inrttf = Font.ttf(inrFont);
     pdf.addPage(MultiPage(
       build: (context) => [
         buildHeader(receipt),
@@ -86,15 +93,28 @@ class PdfReceiptApi {
         ],
       );
 
-  static Widget buildCustomerAddress(Customer customer) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("${customer.name}",
-              style: TextStyle(fontWeight: FontWeight.bold)),
-          Text(
-              "${customer.address}, ${customer.location.target!.area} , ${customer.location.target!.village}, ${customer.location.target!.panchayat}, ${customer.location.target!.block}, ${customer.location.target!.pin.target!.district}, ${customer.location.target!.pin.target!.state}, ${customer.location.target!.pin.target!.pincode} "),
-        ],
-      );
+  static Widget buildCustomerAddress(Customer customer) {
+    String address = "";
+    if (customer.address != null) {
+      for (int i = 0; i < customer.address!.length; i++) {
+        if (i < customer.address!.length - 1 &&
+            customer.address![i + 1] == "ि") {
+          address += customer.address![i + 1];
+          address += customer.address![i];
+          i = i + 1;
+        } else {
+          address += customer.address![i];
+        }
+      }
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("${customer.name}", style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(address, style: TextStyle(font: ttf)),
+      ],
+    );
+  }
 
   static Widget buildReceiptInfo(ReceiptInfo info) {
     final paymentTerms =
@@ -126,9 +146,14 @@ class PdfReceiptApi {
   static Widget buildSupplierAddress() => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Dayal Sharan", style: TextStyle(fontWeight: FontWeight.bold)),
+          Text("Dayal Sharan",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  font: ttf,
+                  fontFallback: [inrttf])),
           SizedBox(height: 1 * PdfPageFormat.mm),
-          Text("Matia,\nJamui,Bihar\n811312"),
+          Text("Matia,\nJamui,Bihar\n811312",
+              style: TextStyle(font: ttf, fontFallback: [inrttf])),
         ],
       );
 
@@ -136,26 +161,31 @@ class PdfReceiptApi {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'INVOICE',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            'invoice'.tr,
+            style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                font: ttf,
+                fontFallback: [inrttf]),
           ),
           SizedBox(height: 0.8 * PdfPageFormat.cm),
-          Text(receipt.receiptInfo.target!.description ?? " "),
+          Text(receipt.receiptInfo.target!.description ?? " ",
+              style: TextStyle(font: ttf, fontFallback: [inrttf])),
           SizedBox(height: 0.8 * PdfPageFormat.cm),
         ],
       );
 
   static Widget buildReceipt(Receipt receipt) {
-    final headers = ['Item', 'Quantity', 'Rate', 'GST', 'Total'];
+    final headers = ['item'.tr, 'quantity'.tr, 'rate'.tr, 'gst'.tr, 'total'.tr];
     final data = receipt.receiptItems.map((item) {
       final total = item.soldPrice! * item.quantity! * (1);
 
       return [
         item.item.target!.purchasedItem.target!.item.target!.name,
-        '${item.quantity} ${item.unit}',
-        '\$ ${item.soldPrice}',
+        '${item.quantity} ${item.unit.target!.shortName}',
+        '₹ ${item.soldPrice}',
         '18%',
-        '\$ ${total.toStringAsFixed(2)}',
+        '₹ ${total.toStringAsFixed(2)}',
       ];
     }).toList();
 
@@ -163,9 +193,11 @@ class PdfReceiptApi {
       headers: headers,
       data: data,
       border: null,
-      headerStyle: TextStyle(fontWeight: FontWeight.bold),
+      headerStyle: TextStyle(
+          fontWeight: FontWeight.bold, font: ttf, fontFallback: [inrttf]),
       headerDecoration: BoxDecoration(color: PdfColors.grey300),
       cellHeight: 30,
+      cellStyle: TextStyle(font: ttf, fontFallback: [inrttf]),
       cellAlignments: {
         0: Alignment.centerLeft,
         1: Alignment.centerRight,
@@ -193,14 +225,14 @@ class PdfReceiptApi {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                buildText(
-                  title: 'Net total',
+                buildPriceText(
+                  title: 'payable_amount'.tr,
                   value: Utils.formatPrice(netTotal),
                   e: true,
                 ),
                 Divider(),
-                buildText(
-                  title: 'Total amount due',
+                buildPriceText(
+                  title: 'total_amount_due'.tr,
                   titleStyle: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
@@ -225,7 +257,8 @@ class PdfReceiptApi {
         children: [
           Divider(),
           SizedBox(height: 2 * PdfPageFormat.mm),
-          buildSimpleText(title: 'Address', value: "Matia, Jamui,Bihar,811312"),
+          buildSimpleText(
+              title: 'address'.tr, value: "Matia, Jamui,Bihar,811312"),
           SizedBox(height: 1 * PdfPageFormat.mm),
         ],
       );
@@ -260,8 +293,36 @@ class PdfReceiptApi {
       width: width,
       child: Row(
         children: [
+          Expanded(
+              child: Text(title,
+                  style: style.copyWith(font: ttf, fontFallback: [inrttf]))),
+          Text(value,
+              style: e
+                  ? style.copyWith(font: ttf, fontFallback: [inrttf])
+                  : TextStyle(font: ttf, fontFallback: [inrttf]))
+        ],
+      ),
+    );
+  }
+
+  static buildPriceText({
+    required String title,
+    required String value,
+    double width = double.infinity,
+    TextStyle? titleStyle,
+    bool e = false,
+  }) {
+    final style = titleStyle ?? TextStyle(fontWeight: FontWeight.bold);
+
+    return Container(
+      width: width,
+      child: Row(
+        children: [
           Expanded(child: Text(title, style: style)),
-          Text(value, style: e ? style : null),
+          Text(value,
+              style: e
+                  ? style.copyWith(font: ttf, fontFallback: [inrttf])
+                  : TextStyle(font: ttf, fontFallback: [inrttf]))
         ],
       ),
     );

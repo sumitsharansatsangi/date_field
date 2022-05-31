@@ -365,7 +365,14 @@ class Languages extends Translations {
           'open_space': 'खुली जगह',
           'expiry_date': 'समाप्ति तिथि',
           'expiry_date_hint': 'समाप्ति तिथि अतीत में नहीं हो सकती है।',
-          'purchase_date': 'क्रय तिथि'
+          'purchase_date': 'क्रय तिथि',
+          'payable_amount': 'देय राशि',
+          'total_amount': 'कुल राशि',
+          'discount': 'छूट',
+          'total_amount_due': 'कुल बकाया राशि',
+          'invoice': 'बिल',
+          'rate': 'दर',
+          'gst': 'जीएसटी'
         },
         'en_US': {
           'almirah': 'Almirah',
@@ -726,7 +733,14 @@ class Languages extends Translations {
           'openspace': 'Open Space',
           'expiry_date': 'Expiry date',
           'expiry_date_hint': "Expiry date can't be in the past.",
-          'purchase_date': 'Purchase date'
+          'purchase_date': 'Purchase date',
+          'payable_amount': 'Payable Amount',
+          'total_amount': 'Total Amount',
+          'discount': 'Discount',
+          'total_amount_due': 'Total Amount Due',
+          'invoice': 'INVOICE',
+          'rate': 'Rate',
+          'gst': 'GST',
         },
       };
 }

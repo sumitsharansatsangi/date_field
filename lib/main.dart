@@ -15,6 +15,8 @@ import 'objectbox.g.dart';
 //view_item_variant
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await GetStorage.init();
   final objectBoxController = Get.put(ObjectBoxController());

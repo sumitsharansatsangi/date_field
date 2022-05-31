@@ -63,19 +63,26 @@ class HomeView extends GetView<HomeController> {
                 decoration: BoxDecoration(gradient: gradient),
               ),
               actions: [
+                // IconButton(
+                //     onPressed: () {
+                //       String address = "भविष्य की तिथि";
+                //       for (int i = 0; i < address.length; i++) {
+                //         print(address[i]);
+                //         if (address[i] == "ि") {
+                //           print("matched");
+                //         }
+                //       }
+                //     },
+                //     icon: Icon(Icons.view_agenda_outlined)),
                 IconButton(
                   onPressed: () {
                     Get.put(
                       CalcController(),
                     );
-                    Get.dialog(
-                        AlertDialog(
-                          content: Container(
-                              color: Colors.deepPurple.shade100,
-                              height: 550.h,
-                              width: 900.w,
-                              child: CalcView()),
-                        ),
+                    Get.defaultDialog(
+                        title: "Calculator",
+                        contentPadding: EdgeInsets.zero,
+                        content: CalcView(),
                         barrierDismissible: false);
                   },
                   icon: Icon(UniconsLine.calculator),
@@ -87,15 +94,17 @@ class HomeView extends GetView<HomeController> {
                       Receipt receipt = await c.addReceipt();
                       final pdfFile = await PdfReceiptApi().generate(receipt);
                       c.updateItems();
-                      Get.toNamed(Routes.PDF, arguments: [
+                      await Get.toNamed(Routes.PDF, arguments: [
                         "Receipt",
                         pdfFile.path,
-                        c.currentCustomer.value.phone,
+                        c.currentCustomer.value!.phone ?? "9931265823",
                         "thank_msg".tr
                       ]);
                       c.total.value = 0.0;
                       c.receiptItemList.value = [];
                       c.isCustomerEditing.value = true;
+                      c.currentCustomer.value = null;
+                      c.currentItem.value = null;
                       // PdfApi.openFile(pdfFile);
                     }
                   },
@@ -255,9 +264,9 @@ class HomeView extends GetView<HomeController> {
                             return SizedBox(
                                 child: ListTile(
                               title: Text("${customer.name}",
-                                  style: TextStyle(fontSize: 10.sp)),
+                                  style: TextStyle(fontSize: 14.sp)),
                               subtitle: Text(customer.nickName ?? " ",
-                                  style: TextStyle(fontSize: 10.sp)),
+                                  style: TextStyle(fontSize: 13.sp)),
                             ));
                           },
                         ),
@@ -316,7 +325,7 @@ class HomeView extends GetView<HomeController> {
                                   SizedBox(
                                       width: Get.width * 0.25,
                                       child: AutoSizeText(
-                                          "${c.receiptItemList[index].quantity.toString()} ${c.receiptItemList[index].unit}")),
+                                          "${c.receiptItemList[index].quantity.toString()} ${c.quantityList[index].shortName}")),
                                   SizedBox(
                                       width: Get.width * 0.25,
                                       child: AutoSizeText(
@@ -368,6 +377,7 @@ class HomeView extends GetView<HomeController> {
                     Center(
                         child: DropDownSearchField<PurchasedItem>(
                       allowCreation: false,
+                      items: c.itemList,
                       allowDecoration: false,
                       searchHint: "search_item_here".tr,
                       notFoundText: "no_item_found".tr,
@@ -450,6 +460,7 @@ class HomeView extends GetView<HomeController> {
                         SizedBox(
                             width: 0.4 * Get.width,
                             child: DropDownSearchField<Unit>(
+                                items: c.unitList,
                                 hint: "unit".tr,
                                 popupTitle: "unit".tr,
                                 onPressed: () async {
@@ -463,7 +474,7 @@ class HomeView extends GetView<HomeController> {
                                 notFoundText: "no_unit_found".tr,
                                 itemAsString: (unit) {
                                   return unit != null
-                                      ? unit.shortName ?? ""
+                                      ? unit.fullName ?? ""
                                       : "";
                                 },
                                 onChanged: (unit) {

@@ -187,6 +187,7 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                 ),
                 SizedBox(height: 5.h),
                 CustomDateField(
+                  mode: DateTimeFieldPickerMode.dateAndTime,
                   labelText: "purchasing_date".tr,
                   hint: DateTime.now().toString(),
                   initialDate: c.purchasedDate,
@@ -351,7 +352,6 @@ class CreatePurchasedItemView extends GetView<CreatePurchasedItemController> {
                     keyboardType: TextInputType.number),
                 CustomDateField(
                   labelText: "expiry_date".tr,
-                  mode: DateTimeFieldPickerMode.dateAndTime,
                   hint: DateTime.now().toString(),
                   initialDate: c.expiryDate,
                   validator: (value) {

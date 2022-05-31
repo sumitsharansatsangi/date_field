@@ -12,14 +12,13 @@ class HomeController extends GetxController {
   final isCustomerEditing = true.obs;
   final isLoading = false.obs;
   final isSaving = false.obs;
-  final quantityUnit = Unit().obs;
-  final quantityUnitList = <Unit>[].obs;
+  final quantityUnit = Rx<Unit?>(null);
   final receiptItemList = <ReceiptItem>[].obs;
   final productItemList = <PurchasedItem>[].obs;
   final quantityController = TextEditingController();
   final soldPriceController = TextEditingController();
-  final currentCustomer = Customer().obs;
-  final currentItem = PurchasedItem().obs;
+  final currentCustomer = Rx<Customer?>(null);
+  final currentItem = Rx<PurchasedItem?>(null);
   final receipt = Receipt().obs;
   final totalDiscount = 0.0.obs;
   final total = 0.0.obs;
@@ -27,16 +26,18 @@ class HomeController extends GetxController {
   final textTranslateController = TextEditingController();
   final objectBoxController = Get.find<ObjectBoxController>();
   final itemList = <PurchasedItem>[].obs;
+  final quantityList = <Unit>[].obs;
   final unitList = <Unit>[].obs;
   final customerList = <Customer>[].obs;
   final purchasedItemController = Get.put(PurchasedItemController());
   final customerController = Get.put(CustomerController());
 
   addToReceipt() {
+    quantityList.add(quantityUnit.value!);
     receiptItemList.add(ReceiptItem()
       ..item.target = currentItem.value
       ..quantity = (num.tryParse(quantityController.text)?.toDouble())!
-      ..unit.targetId = quantityUnit.value.id
+      ..unit.targetId = quantityUnit.value!.id
       ..soldPrice = double.parse(soldPriceController.text));
     receiptItemList.refresh();
     total.value += (num.tryParse(soldPriceController.text)?.toDouble())! *
@@ -46,12 +47,11 @@ class HomeController extends GetxController {
   @override
   void onReady() async {
     super.onReady();
-    quantityUnitList.value = objectBoxController.unitBox.getAll();
+    unitList.value = objectBoxController.unitBox.getAll();
     customerList.value = objectBoxController.customerBox.getAll();
     itemList.value = objectBoxController.purchasedItemBox.getAll();
-
-    if (quantityUnitList.isNotEmpty) {
-      quantityUnit.value = quantityUnitList.first;
+    if (unitList.isNotEmpty) {
+      quantityUnit.value = unitList.first;
     }
   }
 

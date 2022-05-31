@@ -517,18 +517,16 @@ packages:
   get:
     dependency: "direct main"
     description:
-      path: "."
-      ref: be8f65e9eeaa91bdfa681841ec61df28fb6c4ddf
-      resolved-ref: be8f65e9eeaa91bdfa681841ec61df28fb6c4ddf
-      url: "https://github.com/sumitsharansatsangi/getx.git"
-    source: git
-    version: "4.6.1"
+      name: get
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.6.5"
   get_storage:
     dependency: "direct main"
     description:
       path: "."
-      ref: "972d856fc951b907cf22ab7f7a21ea0737003ebf"
-      resolved-ref: "972d856fc951b907cf22ab7f7a21ea0737003ebf"
+      ref: "0f325e1f4f58f727ee4fce087861d0239259803d"
+      resolved-ref: "0f325e1f4f58f727ee4fce087861d0239259803d"
       url: "https://github.com/sumitsharansatsangi/get_storage.git"
     source: git
     version: "2.0.3"
@@ -1040,12 +1038,10 @@ packages:
   speed_up_get:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "1fa047e297f2043872d35a1e278a8dc163c3d3e8"
-      resolved-ref: "1fa047e297f2043872d35a1e278a8dc163c3d3e8"
-      url: "https://github.com/sumitsharansatsangi/speed_up_get.git"
-    source: git
-    version: "0.0.1"
+      name: speed_up_get
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.2"
   sprintf:
     dependency: transitive
     description:
@@ -1286,15 +1282,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
-  whatsapp_share2:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: dcdd4fed3f4de07d0e747a5085634147604d5826
-      resolved-ref: dcdd4fed3f4de07d0e747a5085634147604d5826
-      url: "https://github.com/sumitsharansatsangi/whatsapp_share2.git"
-    source: git
-    version: "2.0.2"
   win32:
     dependency: transitive
     description:
