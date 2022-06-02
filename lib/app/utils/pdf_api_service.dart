@@ -8,10 +8,10 @@ import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Utils {
   static formatPrice(double price) => "₹ ${price.toStringAsFixed(2)}";
-  // static formatPrice(double price) => price.toStringAsFixed(2);
   static formatDate(DateTime date) => DateFormat.yMd().format(date);
 }
 
@@ -39,12 +39,17 @@ class PdfApi {
 class PdfReceiptApi {
   static late Font ttf;
   static late Font inrttf;
+
   Future<File> generate(Receipt receipt) async {
     final pdf = Document();
-    final font = await rootBundle.load("assets/NotoSans-Regular.ttf");
-    final inrFont = await rootBundle.load("assets/Hind-Regular.ttf");
-    ttf = Font.ttf(font);
-    inrttf = Font.ttf(inrFont);
+    Directory directory = await getApplicationSupportDirectory();
+    print(directory.listSync());
+    final fontFile = File(
+        '${directory.path}/NotoSans_regular_4c1661f6a9a227f31867ac2e3d3c5bede223077c546d2cd03fb342629e2eebef.ttf');
+    final inrFontFile = File(
+        '${directory.path}/Hind_regular_5be3910338bc3a5bb056114aadca147194e2957f954a644e8af675b9f05c8784.ttf');
+    ttf = Font.ttf(ByteData.view(fontFile.readAsBytesSync().buffer));
+    inrttf = Font.ttf(ByteData.view(inrFontFile.readAsBytesSync().buffer));
     pdf.addPage(MultiPage(
       build: (context) => [
         buildHeader(receipt),
@@ -107,10 +112,15 @@ class PdfReceiptApi {
         }
       }
     }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("${customer.name}", style: TextStyle(fontWeight: FontWeight.bold)),
+        Text("${customer.name}",
+            style: TextStyle(
+                font: ttf,
+                fontWeight: FontWeight.bold,
+                fontFallback: [inrttf])),
         Text(address, style: TextStyle(font: ttf)),
       ],
     );

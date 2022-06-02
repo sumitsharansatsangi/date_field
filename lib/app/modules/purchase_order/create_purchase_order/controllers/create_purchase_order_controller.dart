@@ -1,7 +1,7 @@
 import 'package:app/app/utils/objectbox.dart';
 import 'package:app/app/widgets/custom_widget.dart';
 import 'package:app/objectbox.g.dart';
-import 'package:flutter_neumorphic_null_safety/flutter_neumorphic.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import '../../../../data/model.dart';
 

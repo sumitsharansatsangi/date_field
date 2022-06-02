@@ -168,14 +168,14 @@ packages:
       name: connectivity_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.0"
+    version: "2.3.1"
   connectivity_plus_linux:
     dependency: transitive
     description:
       name: connectivity_plus_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.0"
+    version: "1.3.1"
   connectivity_plus_macos:
     dependency: transitive
     description:
@@ -189,14 +189,14 @@ packages:
       name: connectivity_plus_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   connectivity_plus_web:
     dependency: transitive
     description:
       name: connectivity_plus_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   connectivity_plus_windows:
     dependency: transitive
     description:
@@ -210,7 +210,7 @@ packages:
       name: convert
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "3.0.2"
   cross_file:
     dependency: transitive
     description:
@@ -249,9 +249,11 @@ packages:
   date_field:
     dependency: "direct main"
     description:
-      name: date_field
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: "6045ea4e310fd7f0d7120add93e91601ba4a9266"
+      resolved-ref: "6045ea4e310fd7f0d7120add93e91601ba4a9266"
+      url: "https://github.com/sumitsharansatsangi/date_field.git"
+    source: git
     version: "3.0.1"
   dbus:
     dependency: transitive
@@ -443,7 +445,7 @@ packages:
       name: flutter_native_splash
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.1"
+    version: "2.2.2"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -537,6 +539,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
+  google_fonts:
+    dependency: "direct main"
+    description:
+      name: google_fonts
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.1"
   gradient_ui_widgets:
     dependency: "direct main"
     description:
@@ -646,8 +655,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "75bacd5042d4e7cd139017b96d3d5488efa22652"
-      resolved-ref: "75bacd5042d4e7cd139017b96d3d5488efa22652"
+      ref: "5c6dd1f88ae08f98b91bd775f9d799a0ec5778e7"
+      resolved-ref: "5c6dd1f88ae08f98b91bd775f9d799a0ec5778e7"
       url: "https://github.com/kumsumit/intl_phone_number_input.git"
     source: git
     version: "0.7.0+2"
@@ -722,7 +731,7 @@ packages:
       name: math_expressions
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.0"
+    version: "2.3.1"
   meta:
     dependency: transitive
     description:
@@ -771,7 +780,7 @@ packages:
       name: omni_datetime_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.9"
+    version: "0.1.0"
   open_file:
     dependency: "direct main"
     description:
@@ -829,7 +838,7 @@ packages:
       name: path_provider_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.6"
+    version: "2.1.7"
   path_provider_macos:
     dependency: transitive
     description:
@@ -850,7 +859,7 @@ packages:
       name: path_provider_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.6"
+    version: "2.0.7"
   pdf:
     dependency: "direct main"
     description:
@@ -959,7 +968,7 @@ packages:
       name: share_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.4"
+    version: "4.0.5"
   share_plus_linux:
     dependency: transitive
     description:
@@ -973,28 +982,28 @@ packages:
       name: share_plus_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.1"
   share_plus_platform_interface:
     dependency: transitive
     description:
       name: share_plus_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.2"
+    version: "3.0.3"
   share_plus_web:
     dependency: transitive
     description:
       name: share_plus_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.1"
   share_plus_windows:
     dependency: transitive
     description:
       name: share_plus_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.1"
   shelf:
     dependency: transitive
     description:

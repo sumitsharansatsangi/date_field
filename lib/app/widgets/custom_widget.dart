@@ -684,7 +684,6 @@ class PhoneWidget extends StatelessWidget {
       onInputChanged: onChanged,
       locale: Get.locale!.languageCode,
       selectorConfig: SelectorConfig(
-        useEmoji: true,
         leadingPadding: 3,
         setSelectorButtonAsPrefixIcon: true,
         selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
@@ -1149,7 +1148,7 @@ errorSnackBar() {
           minFontSize: 8.sp,
           style: TextStyle(
               fontSize: 15.sp,
-              color: Colors.redAccent.shade100,
+              color: Color.fromARGB(255, 245, 178, 172),
               fontWeight: FontWeight.w400)),
       backgroundColor: Colors.red.shade700);
 }
@@ -1186,6 +1185,7 @@ customSnackBar(String title, String message, Color titleColor,
             fontSize: 18.sp, color: titleColor, fontWeight: FontWeight.bold),
       ),
       messageText: AutoSizeText(message,
+          maxLines: 2,
           stepGranularity: 1.sp,
           minFontSize: 8.sp,
           style: TextStyle(

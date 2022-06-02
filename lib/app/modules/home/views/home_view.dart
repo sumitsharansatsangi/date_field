@@ -105,6 +105,7 @@ class HomeView extends GetView<HomeController> {
                       c.isCustomerEditing.value = true;
                       c.currentCustomer.value = null;
                       c.currentItem.value = null;
+                      c.quantityUnit.value = null;
                       // PdfApi.openFile(pdfFile);
                     }
                   },
@@ -122,6 +123,9 @@ class HomeView extends GetView<HomeController> {
                       c.total.value = 0.0;
                       c.receiptItemList.value = [];
                       c.isCustomerEditing.value = true;
+                      c.currentCustomer.value = null;
+                      c.currentItem.value = null;
+                      c.quantityUnit.value = null;
                       // c.chooseDateRangePicker();
                     }
                   },
@@ -238,38 +242,39 @@ class HomeView extends GetView<HomeController> {
                     Center(
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5.r),
-                        child: DropDownSearchField<Customer>(
-                          allowDecoration: false,
-                          onPressed: () async {
-                            await Get.toNamed(Routes.CREATE_CUSTOMER,
-                                arguments: [false]);
-                            c.customerList.value =
-                                c.objectBoxController.customerBox.getAll();
-                          },
-                          items: c.customerList,
-                          label: "customer".tr,
-                          searchHint: "search_customer_here".tr,
-                          notFoundText: "no_customer_found".tr,
-                          itemAsString: (customer) {
-                            return customer != null
-                                ? customer.name ?? " "
-                                : " ";
-                          },
-                          onChanged: (customer) {
-                            if (customer != null) {
-                              c.currentCustomer.value = customer;
-                            }
-                          },
-                          popupItemBuilder: (context, customer, b) {
-                            return SizedBox(
-                                child: ListTile(
-                              title: Text("${customer.name}",
-                                  style: TextStyle(fontSize: 14.sp)),
-                              subtitle: Text(customer.nickName ?? " ",
-                                  style: TextStyle(fontSize: 13.sp)),
-                            ));
-                          },
-                        ),
+                        child: Obx(() => DropDownSearchField<Customer>(
+                              selectedItem: c.currentCustomer.value,
+                              allowDecoration: false,
+                              onPressed: () async {
+                                await Get.toNamed(Routes.CREATE_CUSTOMER,
+                                    arguments: [false]);
+                                c.customerList.value =
+                                    c.objectBoxController.customerBox.getAll();
+                              },
+                              items: c.customerList,
+                              label: "customer".tr,
+                              searchHint: "search_customer_here".tr,
+                              notFoundText: "no_customer_found".tr,
+                              itemAsString: (customer) {
+                                return customer != null
+                                    ? customer.name ?? " "
+                                    : " ";
+                              },
+                              onChanged: (customer) {
+                                if (customer != null) {
+                                  c.currentCustomer.value = customer;
+                                }
+                              },
+                              popupItemBuilder: (context, customer, b) {
+                                return SizedBox(
+                                    child: ListTile(
+                                  title: Text("${customer.name}",
+                                      style: TextStyle(fontSize: 14.sp)),
+                                  subtitle: Text(customer.nickName ?? " ",
+                                      style: TextStyle(fontSize: 13.sp)),
+                                ));
+                              },
+                            )),
                       ),
                     ),
                     SizedBox(height: 5.h),
@@ -375,42 +380,174 @@ class HomeView extends GetView<HomeController> {
                             ],
                           )),
                     Center(
-                        child: DropDownSearchField<PurchasedItem>(
-                      allowCreation: false,
-                      items: c.itemList,
-                      allowDecoration: false,
-                      searchHint: "search_item_here".tr,
-                      notFoundText: "no_item_found".tr,
-                      label: "item".tr,
-                      itemAsString: (item) {
-                        return item != null
-                            ? item.purchasedItem.target!.item.target!.name ?? ""
-                            : "";
-                      },
-                      onChanged: (item) {
-                        if (item != null) {
-                          c.soldPriceController.text =
-                              item.sellingPrice.toString();
-                          c.currentItem.value = item;
-                        }
-                      },
-                      popupItemBuilder: (context, item, b) {
-                        return SizedBox(
-                            child: ListTile(
-                                title: Text(
-                                    item.purchasedItem.target!.item.target!
+                        child: Obx(() => DropDownSearchField<PurchasedItem>(
+                              selectedItem: c.currentItem.value,
+                              allowCreation: false,
+                              items: c.itemList,
+                              allowDecoration: false,
+                              searchHint: "search_item_here".tr,
+                              notFoundText: "no_item_found".tr,
+                              label: "item".tr,
+                              itemAsString: (item) {
+                                return item != null
+                                    ? item.purchasedItem.target!.item.target!
                                             .name ??
-                                        " ",
-                                    style: TextStyle(fontSize: 11.sp)),
-                                subtitle: Text(
-                                  item.purchasedItem.target!.item.target!
-                                      .alternateName!.first,
-                                  style: TextStyle(fontSize: 11.sp),
-                                ),
-                                leading: Text(item.currentQuantity.toString()),
-                                trailing: Text(item.sellingPrice.toString())));
-                      },
-                    )),
+                                        ""
+                                    : "";
+                              },
+                              onChanged: (item) {
+                                if (item != null) {
+                                  c.soldPriceController.text =
+                                      item.sellingPrice.toString();
+                                  c.currentItem.value = item;
+                                }
+                              },
+                              popupItemBuilder: (context, item, b) {
+                                return SizedBox(
+                                    child: ListTile(
+                                  title: Column(
+                                    children: [
+                                      FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: Text(
+                                            "${item.purchasedItem.target!.item.target!.company.target!.name} ${item.purchasedItem.target!.item.target!.name ?? " "}",
+                                            style: TextStyle(fontSize: 11.sp)),
+                                      ),
+                                      SizedBox(height: 5.h),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              Text(
+                                                'color'.tr,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12.sp),
+                                              ),
+                                              Text(
+                                                  item.purchasedItem.target!
+                                                          .color ??
+                                                      "",
+                                                  style: TextStyle(
+                                                      fontSize: 11.sp)),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Text(
+                                                'size'.tr,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12.sp),
+                                              ),
+                                              FittedBox(
+                                                fit: BoxFit.scaleDown,
+                                                child: Text(
+                                                    item.purchasedItem.target!
+                                                            .size ??
+                                                        "",
+                                                    style: TextStyle(
+                                                        fontSize: 11.sp)),
+                                              ),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Text(
+                                                'model'.tr,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12.sp),
+                                              ),
+                                              FittedBox(
+                                                fit: BoxFit.scaleDown,
+                                                child: Text(
+                                                  item.purchasedItem.target!
+                                                          .model ??
+                                                      "",
+                                                  style: TextStyle(
+                                                      fontSize: 11.sp),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  subtitle: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        children: [
+                                          Text(
+                                            'TQ'.tr,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12.sp),
+                                          ),
+                                          Text(
+                                              "${item.purchasedQuantity.toString()} ${item.purchasedQuantityUnit.target!.shortName ?? " "}",
+                                              style:
+                                                  TextStyle(fontSize: 11.sp)),
+                                        ],
+                                      ),
+                                      Column(
+                                        children: [
+                                          Text(
+                                            'CQ'.tr,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12.sp),
+                                          ),
+                                          Text(
+                                              "${item.currentQuantity.toString()} ${item.currentQuantityUnit.target!.shortName ?? " "}",
+                                              style:
+                                                  TextStyle(fontSize: 11.sp)),
+                                        ],
+                                      ),
+                                      Column(
+                                        children: [
+                                          Text(
+                                            'PP'.tr,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12.sp),
+                                          ),
+                                          AutoSizeText(
+                                              "${item.purchasingPrice.toString()} / ${item.purchasingPriceUnit.target!.shortName ?? " "}",
+                                              stepGranularity: 1.sp,
+                                              minFontSize: 8.sp,
+                                              style:
+                                                  TextStyle(fontSize: 11.sp)),
+                                        ],
+                                      ),
+                                      Column(
+                                        children: [
+                                          AutoSizeText(
+                                            'SP'.tr,
+                                            stepGranularity: 1.sp,
+                                            minFontSize: 8.sp,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12.sp),
+                                          ),
+                                          AutoSizeText(
+                                            "${item.sellingPrice.toString()} / ${item.sellingPriceUnit.target!.shortName ?? " "} ",
+                                            stepGranularity: 1.sp,
+                                            minFontSize: 8.sp,
+                                            style: TextStyle(fontSize: 11.sp),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ));
+                              },
+                            ))),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -459,7 +596,8 @@ class HomeView extends GetView<HomeController> {
                         ),
                         SizedBox(
                             width: 0.4 * Get.width,
-                            child: DropDownSearchField<Unit>(
+                            child: Obx(() => DropDownSearchField<Unit>(
+                                selectedItem: c.quantityUnit.value,
                                 items: c.unitList,
                                 hint: "unit".tr,
                                 popupTitle: "unit".tr,
@@ -488,7 +626,7 @@ class HomeView extends GetView<HomeController> {
                                     trailing:
                                         AutoSizeText(unit.shortName ?? ""),
                                   );
-                                })),
+                                }))),
                         SizedBox(
                           width: 0.01 * Get.width,
                         ),
@@ -498,9 +636,32 @@ class HomeView extends GetView<HomeController> {
                               icon: Icon(CupertinoIcons.check_mark_circled,
                                   color: Colors.green, size: 20.sp),
                               onPressed: () {
-                                c.addToReceipt();
-                                c.quantityController.clear();
-                                c.soldPriceController.clear();
+                                if (c.currentItem.value == null) {
+                                  customSnackBar(
+                                      "error".tr,
+                                      "no_item".tr,
+                                      Colors.red.shade100,
+                                      Color.fromARGB(255, 245, 178, 172),
+                                      Colors.red.shade700);
+                                } else if (c.quantityController.text.isEmpty) {
+                                  customSnackBar(
+                                      "error".tr,
+                                      "no_quantity".tr,
+                                      Colors.red.shade100,
+                                      Color.fromARGB(255, 245, 178, 172),
+                                      Colors.red.shade700);
+                                } else if (c.quantityUnit.value == null) {
+                                  customSnackBar(
+                                      "error".tr,
+                                      "no_unit".tr,
+                                      Colors.red.shade100,
+                                      Color.fromARGB(255, 245, 178, 172),
+                                      Colors.red.shade700);
+                                } else {
+                                  c.addToReceipt();
+                                  c.quantityController.clear();
+                                  c.soldPriceController.clear();
+                                }
                               },
                             )),
                         SizedBox(

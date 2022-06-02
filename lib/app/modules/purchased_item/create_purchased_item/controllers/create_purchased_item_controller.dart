@@ -1,8 +1,4 @@
 import 'package:app/app/data/model.dart';
-import 'package:app/app/modules/item_variant/controllers/item_variant_controller.dart';
-import 'package:app/app/modules/supplier/controllers/supplier_controller.dart';
-import 'package:app/app/modules/unit/controllers/unit_controller.dart';
-import 'package:app/app/modules/unit/create_unit/controllers/create_unit_controller.dart';
 import 'package:app/app/utils/network.dart';
 import 'package:app/app/utils/objectbox.dart';
 import 'package:app/app/widgets/custom_widget.dart';
@@ -14,19 +10,16 @@ class CreatePurchasedItemController extends GetxController {
   final appBarText = "add_purchased_item".tr.obs;
   final isUpdating = false.obs;
   late PurchasedItem? updatingPurchasedItem;
-  DateTime? purchasedDate;
-  DateTime? expiryDate;
+  final purchasedDate = Rx<DateTime?>(null);
+  final expiryDate = Rx<DateTime?>(null);
   final selectedStoreRooms = <StoredAtStoreRoom>{}.obs;
   final selectedGodowns = <StoredAtGodown>{}.obs;
   final selectedAlmirahs = <StoredAtAlmirah>{}.obs;
   final fullUnitController = TextEditingController();
   final shortUnitController = TextEditingController();
   final purchasingPriceController = TextEditingController();
-  // final purchasingPriceUnitController = TextEditingController();
   final sellingPriceController = TextEditingController();
-  // final sellingPriceUnitController = TextEditingController();
   final purchasedQuantityController = TextEditingController();
-  // final purchasedQuantityUnitController = TextEditingController();
   final rowController = TextEditingController();
   final columnController = TextEditingController();
   final itemSearchController = TextEditingController();
@@ -45,11 +38,7 @@ class CreatePurchasedItemController extends GetxController {
   final isLoading = false.obs;
   final isAddMore = false.obs;
   final objectBoxController = Get.find<ObjectBoxController>();
-  final unitController = Get.put(UnitController());
-  final itemController = Get.put(ItemVariantController());
-  final supplierController = Get.put(SupplierController());
   final networkController = Get.find<NetworkController>();
-  final createUnitController = Get.put(CreateUnitController());
 
   @override
   void onReady() {
@@ -74,9 +63,8 @@ class CreatePurchasedItemController extends GetxController {
         purchasedQuantityUnit.value =
             updatingPurchasedItem!.purchasedQuantityUnit.target!;
       }
-      expiryDate = updatingPurchasedItem!.dateOfExpiry;
-      purchasedDate = updatingPurchasedItem!.purchasedDate;
-
+      expiryDate.value = updatingPurchasedItem!.dateOfExpiry;
+      purchasedDate.value = updatingPurchasedItem!.purchasedDate;
       if (updatingPurchasedItem!.purchasingPrice != null) {
         purchasingPriceController.text =
             updatingPurchasedItem!.purchasingPrice!.toString();
@@ -89,13 +77,42 @@ class CreatePurchasedItemController extends GetxController {
         purchasedQuantityController.text =
             updatingPurchasedItem!.purchasedQuantity!.toString();
       }
+      if (updatingPurchasedItem!.purchasedItem.target != null) {
+        currentItem.value = updatingPurchasedItem!.purchasedItem.target;
+      }
+      if (updatingPurchasedItem!.storedAtGodown.isNotEmpty) {
+        selectedGodowns.addAll(updatingPurchasedItem!.storedAtGodown);
+      } else if (updatingPurchasedItem!.storedAtStoreRoom.isNotEmpty) {
+        for (final storeRoom in updatingPurchasedItem!.storedAtStoreRoom) {
+          selectedGodowns.add(StoredAtGodown()
+            ..godown.target = storeRoom.storeRoom.target!.godown.target!);
+        }
+        selectedStoreRooms.addAll(updatingPurchasedItem!.storedAtStoreRoom);
+      } else if (updatingPurchasedItem!.storedAtAlmirah.isNotEmpty) {
+        for (final almirah in updatingPurchasedItem!.storedAtAlmirah) {
+          if (almirah.almirah.target!.godown.target != null) {
+            selectedGodowns.add(StoredAtGodown()
+              ..godown.target = almirah.almirah.target!.godown.target);
+          } else {
+            selectedGodowns.add(StoredAtGodown()
+              ..godown.target =
+                  almirah.almirah.target!.room.target!.godown.target);
+          }
+          selectedStoreRooms.add(StoredAtStoreRoom()
+            ..storeRoom.target = almirah.almirah.target!.room.target);
+        }
+        selectedAlmirahs.addAll(updatingPurchasedItem!.storedAtAlmirah);
+      }
+      if (updatingPurchasedItem!.suppliedBy.target != null) {
+        currentSupplier.value = updatingPurchasedItem!.suppliedBy.target;
+      }
     }
   }
 
   void addPurchasedItem() {
     try {
       final purchasedItem = PurchasedItem()
-        ..purchasedDate = purchasedDate ?? DateTime.now()
+        ..purchasedDate = purchasedDate.value ?? DateTime.now()
         ..purchasedItem.targetId = currentItem.value!.id
         ..purchasingPrice = double.parse(purchasingPriceController.text)
         ..purchasingPriceUnit.targetId = purchasingPriceUnit.value!.id
@@ -104,15 +121,18 @@ class CreatePurchasedItemController extends GetxController {
         ..currentQuantity = double.parse(purchasedQuantityController.text)
         ..currentQuantityUnit.targetId = purchasedQuantityUnit.value!.id
         ..suppliedBy.targetId = currentSupplier.value!.id
-        ..dateOfExpiry = expiryDate
+        ..dateOfExpiry = expiryDate.value
         ..sellingPrice = double.parse(sellingPriceController.text)
         ..sellingPriceUnit.targetId = sellingPriceUnit.value!.id;
       if (selectedAlmirahs.isNotEmpty) {
         purchasedItem.storedAtAlmirah.addAll(selectedAlmirahs);
       } else if (selectedStoreRooms.isNotEmpty) {
         purchasedItem.storedAtStoreRoom.addAll(selectedStoreRooms);
+      } else if (selectedGodowns.isNotEmpty) {
+        purchasedItem.storedAtGodown.addAll(selectedGodowns);
       }
       if (isUpdating.value) {
+        purchasedItem.dateOfUpdation = DateTime.now();
         purchasedItem.id = updatingPurchasedItem!.id!;
       }
       int id = objectBoxController.purchasedItemBox.put(purchasedItem);
@@ -133,7 +153,6 @@ class CreatePurchasedItemController extends GetxController {
         }
       } else {
         isLoading.value = false;
-        print("mar gye");
         errorSnackBar();
       }
     } on Exception catch (e) {

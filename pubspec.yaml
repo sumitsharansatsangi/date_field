@@ -10,12 +10,15 @@ dependencies:
   auto_size_text:
   connectivity_plus: ^2.3.0 
   cupertino_icons: ^1.0.4
-  date_field: ^3.0.1
+  date_field:
+    git: 
+      url: https://github.com/sumitsharansatsangi/date_field.git
+      ref: 6045ea4e310fd7f0d7120add93e91601ba4a9266  
   dropdown_search:
     git:
       url: https://github.com/sumitsharansatsangi/searchable_dropdown.git
       ref: master   
-  omni_datetime_picker: ^0.0.8
+  omni_datetime_picker: ^0.1.0
   flutter_app_icon_badge: ^2.0.0
   flutter_contacts:
     git:
@@ -39,13 +42,14 @@ dependencies:
     git:
       url: https://github.com/sumitsharansatsangi/get_storage.git
       ref: 0f325e1f4f58f727ee4fce087861d0239259803d
+  google_fonts:
   gradient_ui_widgets: ^1.0.2-nullsafety
   internet_connection_checker: ^0.0.1+3
   intl: null
   intl_phone_number_input:
     git:
       url: https://github.com/kumsumit/intl_phone_number_input.git
-      ref: 75bacd5042d4e7cd139017b96d3d5488efa22652
+      ref: 5c6dd1f88ae08f98b91bd775f9d799a0ec5778e7
   math_expressions:
   string_validator:
   objectbox:
@@ -93,8 +97,6 @@ flutter:
   assets:
     - assets/data.csv
     - assets/logo.png
-    - assets/NotoSans-Regular.ttf
-    - assets/Hind-Regular.ttf
 
 flutter_icons:
   android: "launcher_icon"

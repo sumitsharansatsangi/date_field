@@ -50,9 +50,6 @@ class HomeController extends GetxController {
     unitList.value = objectBoxController.unitBox.getAll();
     customerList.value = objectBoxController.customerBox.getAll();
     itemList.value = objectBoxController.purchasedItemBox.getAll();
-    if (unitList.isNotEmpty) {
-      quantityUnit.value = unitList.first;
-    }
   }
 
   addReceipt() {
@@ -73,6 +70,7 @@ class HomeController extends GetxController {
         ..receiptInfo.target = receiptInfo;
       int id = objectBoxController.receiptBox.put(receipt);
       if (id != -1) {
+        updateItems();
         isLoading.value = false;
         receiptItemList.value = <ReceiptItem>[];
         currentCustomer.value = Customer();
@@ -94,6 +92,15 @@ class HomeController extends GetxController {
   }
 
   updateItems() {
+    objectBoxController.purchasedItemBox.putMany([
+      for (final receiptItem in receiptItemList)
+        receiptItem.item.target!
+          ..currentQuantity =
+              receiptItem.item.target!.currentQuantity! - receiptItem.quantity!
+    ]);
+  }
+
+  updateItem() {
     objectBoxController.purchasedItemBox.putMany(receiptItemList.map((element) {
       PurchasedItem item = element.item.target!;
       item.currentQuantity = item.currentQuantity! - 100;
