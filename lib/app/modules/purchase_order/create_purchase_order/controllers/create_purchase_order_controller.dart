@@ -9,12 +9,14 @@ class CreatePurchaseOrderController extends GetxController {
   final appBarText = 'add_purchase_order'.tr.obs;
   final isUpdating = false.obs;
   PurchaseOrder? updatingPurchaseOrder;
+  final currentPurchaseOrder = Rx<PurchaseOrder?>(null);
   final isAddMore = false.obs;
   final objectBoxController = Get.find<ObjectBoxController>();
   final isLoading = false.obs;
   final currentSupplier = Supplier().obs;
   final suppliers = <Supplier>[].obs;
   final units = <Unit>[].obs;
+  final items = <ItemVariant>[].obs;
   final purchasedOrderedItems = <PurchaseOrderItem>[PurchaseOrderItem()].obs;
   final controllerList = <TextEditingController>[TextEditingController()].obs;
   @override
@@ -36,6 +38,8 @@ class CreatePurchaseOrderController extends GetxController {
         purchasedOrderedItems.value = updatingPurchaseOrder!.orderedItems;
       }
     }
+    items.value = objectBoxController.itemVariantBox.getAll();
+    units.value = objectBoxController.unitBox.getAll();
     suppliers.value = objectBoxController.supplierBox.getAll();
   }
 
@@ -43,9 +47,13 @@ class CreatePurchaseOrderController extends GetxController {
     try {
       isLoading.value = true;
       final purchaseOrder = PurchaseOrder()
+        ..orderedItems.addAll(purchasedOrderedItems)
         ..supplier.targetId = currentSupplier.value.id;
       if (isUpdating.value) {
         purchaseOrder.id = updatingPurchaseOrder!.id!;
+        purchaseOrder.dateOfUpdation = DateTime.now();
+      } else {
+        purchaseOrder.dateOfCreation = DateTime.now();
       }
       int id = objectBoxController.purchaseOrderBox.put(purchaseOrder);
       if (id != -1) {

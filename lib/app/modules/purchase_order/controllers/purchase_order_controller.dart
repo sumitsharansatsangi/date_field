@@ -1,6 +1,6 @@
 import 'package:app/app/data/model.dart';
-import 'package:app/app/modules/item_variant/controllers/item_variant_controller.dart';
-import 'package:app/app/modules/supplier/controllers/supplier_controller.dart';
+// import 'package:app/app/modules/item_variant/controllers/item_variant_controller.dart';
+// import 'package:app/app/modules/supplier/controllers/supplier_controller.dart';
 import 'package:app/app/utils/objectbox.dart';
 import 'package:app/app/widgets/custom_widget.dart';
 import 'package:app/objectbox.g.dart';
@@ -13,6 +13,7 @@ class PurchaseOrderController extends GetxController {
   final objectBoxController = Get.find<ObjectBoxController>();
   final isLoading = false.obs;
   final searchedOrderList = <SearchedPurchaseOrder>[].obs;
+  final purchaseOrder = <PurchaseOrder>[].obs;
   // final itemController = Get.find<ItemVariantController>();
   // final supplierController = Get.find<SupplierController>();
 
@@ -80,23 +81,24 @@ class PurchaseOrderController extends GetxController {
           ),
           SizedBox(height: 10.h),
           Center(
+            child: Text(purchaseOrder.supplier.target!.name ?? " "),
+          ),
+          Center(
             child: Padding(
               padding: EdgeInsets.all(3.r),
               child: Table(
+                columnWidths: {
+                  0: FlexColumnWidth(1 / 3),
+                  1: FixedColumnWidth(50)
+                },
                 border: TableBorder.all(color: Colors.deepPurple.shade200),
                 children: [
-                  TableRow(children: [
-                    Heading("Supplier".tr),
-                    Content(purchaseOrder.supplier.target!.name ?? " "),
-                  ]),
-                  // TableRow(children: [
-                  //   Heading("number_of_item".tr),
-                  //   Content(company.items.length.toString()),
-                  // ]),
-                  // TableRow(children: [
-                  //   Heading("number_of_searches".tr),
-                  //   Content(company.searches.length.toString()),
-                  // ])
+                  for (final order in purchaseOrder.orderedItems)
+                    TableRow(children: [
+                      Heading(" "),
+                      // "${order.item.target!.item.target!.name ?? ""} ${order.item.target!.color ?? ""} ${order.item.target!.model ?? ""} ${order.item.target!.size}"),
+                      Content(order.quantity.toString()),
+                    ]),
                 ],
               ),
             ),

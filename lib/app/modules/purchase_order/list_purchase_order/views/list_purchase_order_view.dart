@@ -80,7 +80,8 @@ class ListPurchaseOrderView extends GetView<ListPurchaseOrderController> {
                                 onTap: () => c.purchaseOrderController
                                     .openBottomSheet(e.item),
                                 onLongPress: () async {
-                                  await Get.toNamed(Routes.CREATE_COMPANY,
+                                  await Get.toNamed(
+                                      Routes.CREATE_PURCHASE_ORDER,
                                       arguments: [true, e.item]);
                                   c.purchaseOrderList.value = c
                                       .purchaseOrderController
