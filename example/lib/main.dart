@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   firstDate: DateTime.now().add(const Duration(days: 10)),
                   lastDate: DateTime.now().add(const Duration(days: 40)),
                   selectedDate: DateTime.now().add(const Duration(days: 20)),
-                  autovalidateMode: AutovalidateMode.always,
+                  autoValidateMode: AutovalidateMode.always,
                   validator: (DateTime? e) =>
                       (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
                   onDateSelected: (DateTime value) {
@@ -93,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     labelText: 'Only time',
                   ),
                   mode: DateTimeFieldPickerMode.time,
-                  autovalidateMode: AutovalidateMode.always,
+                  autoValidateMode: AutovalidateMode.always,
                   validator: (DateTime? e) {
                     return (e?.day ?? 0) == 1
                         ? 'Please not the first day'

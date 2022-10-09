@@ -17,7 +17,7 @@ class DateTimeFormField extends FormField<DateTime> {
     FormFieldSetter<DateTime>? onSaved,
     FormFieldValidator<DateTime>? validator,
     DateTime? initialValue,
-    AutovalidateMode? autovalidateMode,
+    AutovalidateMode? autoValidateMode,
     bool enabled = true,
     bool use24hFormat = false,
     TextStyle? dateTextStyle,
@@ -37,7 +37,7 @@ class DateTimeFormField extends FormField<DateTime> {
           initialValue: initialValue,
           onSaved: onSaved,
           validator: validator,
-          autovalidateMode: autovalidateMode,
+          autovalidateMode: autoValidateMode,
           enabled: enabled,
           builder: (FormFieldState<DateTime> field) {
             // Theme defaults are applied inside the _InputDropdown widget
