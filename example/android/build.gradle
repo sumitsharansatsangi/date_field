@@ -1,12 +1,19 @@
 buildscript {
+<<<<<<< HEAD
     ext.kotlin_version = '1.6.21'
+=======
+    ext.kotlin_version = '1.7.10'
+>>>>>>> refs/remotes/origin/master
     repositories {
         google()
         mavenCentral()
     }
 
     dependencies {
+<<<<<<< HEAD
         classpath 'com.android.tools.build:gradle:7.2.1'
+=======
+>>>>>>> refs/remotes/origin/master
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -24,7 +31,11 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
+<<<<<<< HEAD
 
 task clean(type: Delete) {
+=======
+tasks.register("clean", Delete) {
+>>>>>>> refs/remotes/origin/master
     delete rootProject.buildDir
 }

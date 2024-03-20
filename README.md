@@ -1,66 +1,85 @@
-# date_field
+# Welcome to the Date Field package! 📅
 
-[![pub package](https://img.shields.io/pub/v/date_field.svg)](https://pub.dartlang.org/packages/date_field)
+[![pub package](https://img.shields.io/pub/v/date_field.svg)](https://pub.dev/packages/date_field)
 
+This package provides two widgets, DateTimeField and DateTimeFormField, which allow users to pick a
+date and/or time from an input field. You can customize the appearance of the widgets using the
+decoration argument, and specify whether to ask for a date, a time, or both using the mode
+parameter.
 
-Contains DateTimeField and DateTimeFormField which allows the user to pick a DateTime from an input field! Depending on
-the mode, it can ask the user the time, the date or both at the same time ;) !
+<table>
+  <tr>
+    <th>iOS</th>
+    <th>Android</th>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/GaspardMerten/date_field/raw/master/assets/date_field_ios.gif" alt="Date field picker package gif on an iOS device"></td>
+    <td><img src="https://github.com/GaspardMerten/date_field/raw/master/assets/date_field_android.gif" alt="Date field picker package gif on an Android device"></td>
+  </tr>
+</table>
 
-<img src='https://raw.githubusercontent.com/GaspardMerten/date_field/master/example/demo.gif' height='250px'></img>
+## Getting Started 🚀
 
-## Usage
+1. Add date_field package to your dependencies in pubspec.yaml.
+   ```yaml
+   dependencies:
+     ...
+     date_field: ^4.0.0
+   ```
+2. Run `flutter pub get` to install the package.
+3. Initialize your systems locale. If not, users might see AM/PM even when
+   they configured their system to use 24h format. Add the following code to your main function:
 
-In the `pubspec.yaml` of your flutter project, add the following dependency:
+   ```dart
+   import 'package:intl/intl_standalone.dart' if (dart.library.html) 'package:intl/intl_browser.dart';
 
-```yaml
-dependencies:
-  ...
-  date_field: ^3.0.0
-```
+   Future<void> main() async {
+     WidgetsFlutterBinding.ensureInitialized();
+     await findSystemLocale();
+     runApp(const MyApp());
+   }
+   ```
+4. Import the package in your Dart code.
+   ```dart
+   import 'package:date_field/date_field.dart';
+   ```
+5. Use the Widget. Example:
 
-In your library add the following import:
+   ```dart
+   DateTimeFormField(
+     decoration: const InputDecoration(
+       labelText: 'Enter Date',
+     ),
+     firstDate: DateTime.now().add(const Duration(days: 10)),
+     lastDate: DateTime.now().add(const Duration(days: 40)),
+     initialPickerDateTime: DateTime.now().add(const Duration(days: 20)),
+     onChanged: (DateTime? value) {
+       selectedDate = value;
+     },
+   ),
+   ```
 
-```dart
-import 'package:date_field/date_field.dart';
-```
+## Migration to 4.0.0 🚀
 
+Version 4.0.0 contains breaking changes. Use `dart fix` to migrate to the latest version.
 
-## Getting Started
+## Known Issues 🐛
 
-There are two widgets in this package:
+- The pickers and formatted DateTimes adjust only on iOS and Android to the Device Systems Region.
+  On all other platforms, the pickers adjust to the locale.
+  See [32006](https://github.com/flutter/flutter/issues/32006)
 
-- DateTimeField
-- DateTimeFormField
+## License 📜
 
-It follows the usual Flutter patterns convention, meaning the DateTimeFormField extends the FormField widget and wraps a DateTimeField widget.
+This package is released under the MIT license.
 
-You can customize both of these widgets with the decoration argument which is fully supported.
+## Contributing 🤝
 
-You can also specify whether you would like to ask the user for a date, a time or both using the mode parameter. 
+Contributions to this package are welcome! If you find a bug or have a feature request, please
+create an issue on the GitHub repository. If you'd like to contribute code, please create a pull
+request with your changes.
 
-## Example
+Before submitting a pull request, please make sure to run the tests and ensure they all pass.
+Additionally, please follow the existing coding style and make sure your code is well-documented.
 
-The following picture illustrates some things you can do with this package.
-
-<img src='https://raw.githubusercontent.com/GaspardMerten/date_field/master/example/demo.gif' height='250px'></img>
-
-
-``` dart
-DateTimeFormField(
-  decoration: const InputDecoration(
-    hintStyle: TextStyle(color: Colors.black45),
-    errorStyle: TextStyle(color: Colors.redAccent),
-    border: OutlineInputBorder(),
-    suffixIcon: Icon(Icons.event_note),
-    labelText: 'Only time',
-  ),
-  mode: DateTimeFieldPickerMode.time,
-  autovalidateMode: AutovalidateMode.always,
-  validator: (e) => (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
-  onDateSelected: (DateTime value) {
-    print(value);
-  },
-),
-```
-
-You can check the GitHub repo for a complete example. 
+Thank you for your contributions!

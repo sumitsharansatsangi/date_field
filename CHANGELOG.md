@@ -1,134 +1,174 @@
-##3.0.2
+# 4.0.1
 
-* Adding click pointer for desktop and web
+- Fix clear button disappearing on rebuild 
 
-##3.0.1
+# 4.0.0
 
-* Fixing [issue #29](https://github.com/GaspardMerten/date_field/issues/29) -> adding 24h format support for material time picker dialog
+- Removing override of MediaQuery.alwaysUse24HourFormat from the time picker dialog
 
-##3.0.0
+## Breaking changes
 
-* Breaking Upgraded minimum Dart version to 2.15 for Constructor Tearoff support
-* Added optional `DateTimeFieldCreator` argument to `DateTimeFormField` to allow specifying custom implementations of `DateTimeField`
-* Refactored `DateTimeField` to expose `showMaterialTimePicker`, `showMaterialDatePicker`, and `showMaterialTimePicker` as separate overrideable methods
-* Made `kCupertinoDatePickerHeight` and `cupertinoModeFromPickerMode` public for convenience
-* Removed `DateTimeFormFieldState`, replaced by an instance of `FormFieldState<DateTime>`
-* Fixed the behaviour of the `initialDate' parameter.
+### DateTimeField
 
-##2.1.3
+- `onDateSelected` got deprecated. Use `onChanged` instead. `onDateSelected` will be removed in v5.0.0.
+- `onChange` is required
 
-* [TheGlorySaint](https://github.com/TheGlorySaint) added the possibility to use the 24Hour Format at the Timepicker. Default it is set to false
+### DateTimeField.time
+- `onDateSelected` got deprecated. Use `onChanged` instead. `onDateSelected` will be removed in v5.0.0.
+- `onChange` is required
 
-##2.1.2
+### DateTimeFormField
 
-* Adding the possibility to specify the initial date selected in the date picker dialog.
+- `onDateSelected` got deprecated. Use `onChanged` instead. `onDateSelected` will be removed in v5.0.0.
+- `onChange` is required.
+- removed `fieldCreator`.
 
-##2.1.1
+## New features
 
-* Formatting with Dart FM
+### DateTimeField
 
-##2.1.0
+- Parameter namings are now similar as in flutter widgets.
+- The widget is now fully accessible and controllable with a keyboard.
+- The iOS and MacOS modal sheet has now a save and cancel button
+- `onChanged` accepts now also `null` values. DateTimeFormField uses this to implement a clear button.
+- All texts and interesting settings of `DatePickerDialog`, `TimePickerDialog` and `CupertinoDatePicker` are now changeable
 
-* Fixing label & hint style issues
-* Moving to a more generic architecture
-* Updating the analysis_options.yaml file
+_Thank you @torbenkeller for this well-needed PR._
 
-##2.0.1
+# 3.0.6
 
-* Adding the ability to specify the entry mode for the material date picker.
+- Fixing issue #42 dense empty form field
 
-##2.0.0
+# 3.0.5
 
-* Migrating to null-safety
+- Bumping intl to 0.18.0
 
+# 3.0.4
 
-##1.0.5
+- Updating Changelog.md
 
-* Removing unused variables
-* Improving description
+# 3.0.3
 
+- Updating the README.md file. Adding more information about the package, rewriting the text to make it more appealing.
+- Adding support for providing a different initial time mode for the material time picker dialog (thanks to @schalky).
 
-##1.0.4
+# 3.0.2
 
-* Fixing critical issue
+Added support for clickable pointer on desktop and web.
 
-##1.0.3
+# 3.0.1
 
-* Improving package description
+Fixed issue #29 by adding 24-hour format support for the material time picker dialog.
 
-##1.0.2
+# 3.0.0
 
-* Improving package description
+Upgraded the minimum Dart version to 2.15 for constructor tear-off support, which is a breaking change.
+Added an optional DateTimeFieldCreator argument to DateTimeFormField for specifying custom implementations of DateTimeField.
+Refactored DateTimeField to expose showMaterialTimePicker, showMaterialDatePicker, and showMaterialTimePicker as separate overrideable methods.
+Made kCupertinoDatePickerHeight and cupertinoModeFromPickerMode public for convenience.
+Removed DateTimeFormFieldState and replaced it with an instance of FormFieldState<DateTime>.
+Fixed the behavior of the initialDate parameter.
 
-##1.0.1
+# 2.1.3
 
-* Removing the ripple effect
+Added the possibility to use the 24-hour format for the time picker. Default is set to false.
 
-##1.0.0
+# 2.1.2
 
-* Full support for input decoration
-* New standardized usage, many deprecations
+Added the ability to specify the initial date selected in the date picker dialog.
 
-##0.3.3
+# 2.1.1
 
-* Intl => any support
+Formatted code with Dart FM.
 
-Breaking change:
-* Removing the label property, please consider using the InputDecoration to customize the label.
+# 2.1.0
 
-##0.3.2
+Fixed label and hint style issues.
+Moved to a more generic architecture.
+Updated the analysis_options.yaml file.
 
-* Formating with dartfm
+# 2.0.1
 
-##0.3.1
+Added the ability to specify the entry mode for the material date picker.
 
-* Adding the possibility to style the text with TextStyle
+# 2.0.0
 
-## 0.3.0
+Migrated to null-safety.
 
-Breaking changes:
-* No more const constructor.
+# 1.0.5
 
-Deprecated:
-* DateField and DateFormField are now deprecated and will be removed in the next version, please consider switching to
-  DateTimeField and DateTimeFormField.
+Removed unused variables and improved the description.
 
-Improvements:
-* Adding support for time. Now you can ask the user for a time, a date or both.
-* Improving performances by setting default value in the constructor.
-* Adding .time constructor for the DateField widget only.
+# 1.0.4
 
-## 0.2.2
+Fixed a critical issue.
 
-* Auto-formatting with dart-fm to meet pub.dev requirements
+# 1.0.3
 
-## 0.2.1
+Improved the package description.
 
-* Adding support for Flutter web
+# 1.0.2
 
-## 0.2.0
+Improved the package description.
 
-* DateFormField now extends FormField. All issues related to this are now fiex
-* The style of the DateField (and by extension the one of DateFormField) is now rigorously applying the theme or any customization.
+# 1.0.1
 
-## 0.1.2
+Removed the ripple effect.
 
-* Fixing an incorrect boolean (iOS picker was inverted with the Android one)
+# 1.0.0
 
-## 0.1.1
+Added full support for input decoration.
+Adopted a new standardized usage, with many deprecations.
 
-* Formatting with DartFM!
+# 0.3.3
 
-## 0.1.0
+Changed support from Intl to any, which is a breaking change.
+Removed the label property, and suggested using the InputDecoration to customize the label.
 
-* Updating documentation!
+# 0.3.2
 
-## 0.0.2
+Formatted the code with Dart FM.
 
-* Fixing README.md
-* Updating package description
-* Formatting with DartFM
+# 0.3.1
 
-## 0.0.1
+Added the possibility to style the text with TextStyle.
+
+# 0.3.0
+
+Removed the const constructor, which is a breaking change.
+Deprecated DateField and DateFormField, and added support for time.
+Improved performance by setting the default value in the constructor.
+Added a .time constructor for the DateField widget only.
+
+# 0.2.2
+
+Formatted the code with dart-fm to meet pub.dev requirements.
+
+# 0.2.1
+
+Added support for Flutter web.
+
+# 0.2.0
+
+Changed DateFormField to extend FormField, and rigorously applied the style to match the theme or any customization.
+
+# 0.1.2
+
+Fixed an incorrect boolean value (the iOS picker was inverted with the Android one).
+
+# 0.1.1
+
+Formatted the code with DartFM.
+
+# 0.1.0
+
+Updated the documentation.
+
+# 0.0.2
+
+Fixed the README.md and updated the package description.
+Formatted the code with DartFM.
+
+# 0.0.1
 
 * Initial version
